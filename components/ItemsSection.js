@@ -36,6 +36,7 @@ const ItemsSection = ({ items }) => {
         columns={columns}
         data={items}
         openEditFunction={editButtonHandler}
+        initSortCol={"name"}
       />
 
       <ItemDialogForm

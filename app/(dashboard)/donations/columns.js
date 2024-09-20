@@ -11,7 +11,12 @@ export const columns = [
     id: "sponsor",
     accessorFn: (row) => row.sponsor.company_name,
     header: "Sponsor",
-    enableColumnFilter: true,
+    enableColumnFilter: false,
+    sortingFn: (rowA, rowB, columnId) => {
+      const sponsorA = rowA.original.sponsor.company_name.toLowerCase();
+      const sponsorB = rowB.original.sponsor.company_name.toLowerCase();
+      return sponsorA > sponsorB ? 1 : sponsorA < sponsorB ? -1 : 0;
+    },
   },
   {
     id: "items",

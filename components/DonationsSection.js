@@ -75,6 +75,7 @@ const DonationsSection = ({ donations, items, sponsors, curEvent }) => {
         columns={columns}
         data={donations}
         openEditFunction={editButtonHandler}
+        initSortCol={"sponsor"}
       />
 
       <DonationDialogForm

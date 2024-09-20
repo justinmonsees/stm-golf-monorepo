@@ -11,6 +11,11 @@ export const columns = [
     accessorKey: "name",
     header: "Name",
     enableColumnFilter: false,
+    sortingFn: (rowA, rowB, columnId) => {
+      const catA = rowA.original.name.toLowerCase();
+      const catB = rowB.original.name.toLowerCase();
+      return catA > catB ? 1 : catA < catB ? -1 : 0;
+    },
   },
   {
     id: "actions",

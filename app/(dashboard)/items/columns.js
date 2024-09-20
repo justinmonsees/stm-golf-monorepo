@@ -11,6 +11,11 @@ export const columns = [
     accessorKey: "name",
     header: "Name",
     enableColumnFilter: false,
+    sortingFn: (rowA, rowB, columnId) => {
+      const itemA = rowA.original.name.toLowerCase();
+      const itemB = rowB.original.name.toLowerCase();
+      return itemA > itemB ? 1 : itemA < itemB ? -1 : 0;
+    },
   },
   {
     accessorKey: "cost",

@@ -37,6 +37,7 @@ const ExpenseCategoriesSection = ({ expenseCategories }) => {
         columns={columns}
         data={expenseCategories}
         openEditFunction={editButtonHandler}
+        initSortCol={"name"}
       />
 
       <ExpenseCategoryDialogForm

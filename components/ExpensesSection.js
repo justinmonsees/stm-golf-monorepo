@@ -76,6 +76,7 @@ const ExpensesSection = ({ expenses, expenseCategories, curEvent }) => {
         columns={columns}
         data={expenses}
         openEditFunction={editButtonHandler}
+        initSortCol={"name"}
       />
 
       <ExpenseDialogForm

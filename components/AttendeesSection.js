@@ -76,6 +76,7 @@ const AttendeesSection = ({ attendees, curEvent }) => {
         columns={columns}
         data={attendees}
         openEditFunction={editButtonHandler}
+        initSortCol={"fullName"}
       />
 
       <AttendeeDialogForm

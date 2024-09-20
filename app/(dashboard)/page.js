@@ -2,16 +2,13 @@
 
 import { getAttendees } from "@/lib/actions/attendeeActions";
 import { getDonations } from "@/lib/actions/donationActions";
-import { getCurrentEvent } from "@/lib/actions/eventActions";
 import { getExpenses } from "@/lib/actions/expenseActions";
 import DashboardSection from "@/components/DashboardSection";
 
 export default async function Dashboard() {
-  const event = await getCurrentEvent();
-
   const [attendees, donations, expenses] = await Promise.all([
     getAttendees(),
-    getDonations(event[0].event_id),
+    getDonations(),
     getExpenses(),
   ]);
 

@@ -1,4 +1,4 @@
-import { Filter } from "lucide-react";
+import { ArrowDownUp } from "lucide-react";
 import { useMemo } from "react";
 import {
   DropdownMenu,
@@ -13,10 +13,10 @@ const ColumnSorter = ({ column }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
+        <Button variant="ghost" className="h-8 w-auto p-0">
           <span className="sr-only">Sort {column.columnDef.header}</span>
           <span>{column.columnDef.header}</span>
-          <Filter className="h-4 w-4" />
+          <ArrowDownUp className="h-4 w-auto px-2" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
