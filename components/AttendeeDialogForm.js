@@ -205,7 +205,7 @@ const AttendeeDialogForm = ({ isFormOpen, formHandler, attendee = null }) => {
         router.refresh();
       }
     }
-    //Otherwise we are adding an item
+    //Otherwise we are adding an attendee
     else {
       const isPaid = data.datePaid ? true : false;
 

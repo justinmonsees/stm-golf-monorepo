@@ -46,11 +46,16 @@ const AttendeesSection = ({ attendees, curEvent }) => {
 
   //console.log(items);
   return (
-    <div className="w-full pb-10 px-20">
+    <div className="w-full pb-10 px-10">
       <div className="text-4xl py-10 flex justify-between">
         <span>Attendees</span>
         <div className="flex gap-3">
-          <Button onClick={addButtonHandler}>Add Attendee</Button>
+          <Button
+            disabled={curEvent.is_current_event}
+            onClick={addButtonHandler}
+          >
+            Add Attendee
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button>Export</Button>
@@ -77,6 +82,7 @@ const AttendeesSection = ({ attendees, curEvent }) => {
         data={attendees}
         openEditFunction={editButtonHandler}
         initSortCol={"fullName"}
+        disableButtons={curEvent.is_current_event}
       />
 
       <AttendeeDialogForm

@@ -76,6 +76,7 @@ export const columns = [
             <Button
               variant="outline"
               size="icon"
+              disabled={table.options.meta.disableButtons}
               onClick={() => table.options.meta.openEditModal(row.original)}
             >
               <span className="sr-only">Edit Attendee</span>
@@ -84,6 +85,7 @@ export const columns = [
             <Button
               variant="outline"
               size="icon"
+              disabled={table.options.meta.disableButtons}
               onClick={() => {
                 deleteAttendeeByID(attendee.attendee_id);
                 table.options.meta.refreshRoute();

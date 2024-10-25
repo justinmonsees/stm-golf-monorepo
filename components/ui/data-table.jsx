@@ -24,8 +24,17 @@ import ColumnFilter from "./data-table-filter";
 import ColumnSorter from "./data-table-sort";
 import { DataTablePagination } from "./data-table-pagination";
 
-export function DataTable({ columns, data, openEditFunction, initSortCol }) {
-  const [sorting, setSorting] = useState([{ desc: false, id: initSortCol }]);
+export function DataTable({
+  columns,
+  data,
+  openEditFunction,
+  initSortCol,
+  initSortDesc = false,
+  disableButtons = false,
+}) {
+  const [sorting, setSorting] = useState([
+    { desc: initSortDesc, id: initSortCol },
+  ]);
   const [columnFilters, setColumnFilters] = useState();
   const router = useRouter();
 
@@ -35,6 +44,7 @@ export function DataTable({ columns, data, openEditFunction, initSortCol }) {
     meta: {
       openEditModal: openEditFunction,
       refreshRoute: router.refresh,
+      disableButtons: disableButtons,
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

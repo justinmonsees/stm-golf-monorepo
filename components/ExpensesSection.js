@@ -46,11 +46,16 @@ const ExpensesSection = ({ expenses, expenseCategories, curEvent }) => {
   };
 
   return (
-    <div className="w-full pb-10 px-20">
+    <div className="w-full pb-10 px-10">
       <div className="text-4xl py-10 flex justify-between">
         <span>Expenses</span>
         <div className="flex gap-3">
-          <Button onClick={addButtonHandler}>Add Expense</Button>
+          <Button
+            disabled={curEvent.is_current_event}
+            onClick={addButtonHandler}
+          >
+            Add Expense
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button>Export</Button>
@@ -77,6 +82,7 @@ const ExpensesSection = ({ expenses, expenseCategories, curEvent }) => {
         data={expenses}
         openEditFunction={editButtonHandler}
         initSortCol={"name"}
+        disableButtons={curEvent.is_current_event}
       />
 
       <ExpenseDialogForm

@@ -76,10 +76,10 @@ const DashboardSection = ({ stats }) => {
           <CardHeader>
             <CardTitle>Attendees</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             <ChartContainer
               config={attendeeChartConfig}
-              className="mx-auto aspect-square w-full max-w-[250px]"
+              className="w-full m-auto h-[80%]"
             >
               <RadialBarChart
                 data={attendeeChartData}

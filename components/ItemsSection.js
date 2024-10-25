@@ -27,7 +27,7 @@ const ItemsSection = ({ items }) => {
 
   //console.log(items);
   return (
-    <div className="w-full pb-10 px-20">
+    <div className="w-full pb-10 px-10">
       <div className="text-4xl py-10 flex justify-between">
         <span>Items</span>
         <Button onClick={addButtonHandler}>Add Item</Button>

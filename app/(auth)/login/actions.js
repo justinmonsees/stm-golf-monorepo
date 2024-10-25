@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { getUserByID } from "@/lib/actions/userActions";
+
 import { createClient } from "@/utils/supabase/server";
 
 export async function login(email, password) {
@@ -13,13 +15,21 @@ export async function login(email, password) {
     password: password,
   };
 
-  const { data, error } = await supabase.auth.signInWithPassword(formInfo);
-  console.log(data);
-  if (error) {
-    console.log(error);
-    redirect("/login");
-  }
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword(formInfo);
 
-  revalidatePath("/", "layout");
-  redirect("/");
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const userProfile = await getUserByID(data.user.id);
+
+    if (userProfile) {
+      return { data: userProfile, error: null };
+    } else {
+      throw new Error("Cannot retrieve user profile.");
+    }
+  } catch (error) {
+    return { data: null, error: error.message };
+  }
 }

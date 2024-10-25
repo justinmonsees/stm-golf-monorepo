@@ -51,6 +51,7 @@ export const columns = [
             <Button
               variant="outline"
               size="icon"
+              disabled={table.options.meta.disableButtons}
               onClick={() => table.options.meta.openEditModal(row.original)}
             >
               <span className="sr-only">Edit Donation</span>
@@ -59,6 +60,7 @@ export const columns = [
             <Button
               variant="outline"
               size="icon"
+              disabled={table.options.meta.disableButtons}
               onClick={() => {
                 deleteDonationByID(donation.donation_id);
                 table.options.meta.refreshRoute();

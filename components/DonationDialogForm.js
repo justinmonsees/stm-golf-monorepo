@@ -57,7 +57,6 @@ const DonationDialogForm = ({
   items,
   curEvent,
 }) => {
-  console.log("CURRENT EVENT", curEvent);
   const { toast } = useToast();
   const router = useRouter();
 

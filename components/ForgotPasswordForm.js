@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -19,49 +20,41 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { login } from "@/app/(auth)/login/actions";
+import { resetUserPassword } from "@/lib/actions/userActions";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const formSchema = z.object({
   username: z.string(),
-  password: z.string(),
 });
 
-export function LoginForm() {
+export function ForgotPasswordForm() {
   const router = useRouter();
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
-      password: "",
     },
   });
 
   const onSubmit = async (data) => {
-    const { data: userProfile, error } = await login(
-      data.username,
-      data.password
-    );
+    setSendingEmail(true);
 
-    if (userProfile) {
-      if (userProfile.needs_reset) {
-        alert(
-          "A default password has been used. You will now be redirected to change your password."
-        );
+    const { data: result, error } = await resetUserPassword(data.username);
 
-        router.push("/reset");
-      } else {
-        router.push("/");
-      }
-    } else {
-      form.setError("form", { type: "custom", message: error });
-    }
+    form.setError("form", {
+      type: "custom",
+      message:
+        "If the email address given exists, a password reset email will be sent to that email.",
+    });
+
+    setSendingEmail(false);
   };
 
   return (
@@ -69,9 +62,9 @@ export function LoginForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardHeader>
-            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardTitle className="text-2xl">Password Recovery</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account.
+              Enter your email below to recover your account.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -88,26 +81,21 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             {form.formState.errors.form && (
               <FormMessage className="text-center mt-4">{`${form.formState.errors.form.message}`}</FormMessage>
             )}
           </CardContent>
           <CardFooter>
-            <Button className="w-full" type="submit">
-              Sign in
+            <Button className="w-full" type="submit" disabled={sendingEmail}>
+              {sendingEmail ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Sending Email
+                </>
+              ) : (
+                <>Send Recovery Email</>
+              )}
             </Button>
           </CardFooter>
         </form>

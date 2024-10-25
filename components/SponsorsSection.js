@@ -48,7 +48,7 @@ const SponsorsSection = ({ sponsors, committeeMembers, eventInfo }) => {
 
   //console.log(items);
   return (
-    <div className="w-full pb-10 px-20">
+    <div className="w-full pb-10 px-10">
       <div className="text-4xl py-10 flex justify-between">
         <span>Sponsors</span>
         <div className="flex gap-3">

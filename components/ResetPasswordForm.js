@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { updatePassword } from "@/lib/actions/userActions";
+import { updatePassword, updateUserByID } from "@/lib/actions/userActions";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,7 +36,7 @@ const formSchema = z
     message: "Passwords do not match",
   });
 z;
-export function ResetPasswordForm({ user }) {
+export function ResetPasswordForm({ user, initReset }) {
   const router = useRouter();
 
   const form = useForm({
@@ -51,9 +51,20 @@ export function ResetPasswordForm({ user }) {
     const { result, error } = await updatePassword(user.email, data.password);
 
     if (error) {
-      console.log("Password Reset Failed");
-      //TODO: Output this error to the reset form
+      form.setError("form", { type: "custom", message: error });
     } else {
+      if (initReset) {
+        const { result: userResult, error: userError } = await updateUserByID(
+          user.id,
+          {
+            needs_reset: false,
+          }
+        );
+
+        if (userError) {
+          form.setError("form", { type: "custom", message: userError });
+        }
+      }
       router.push("/");
     }
   };
@@ -95,6 +106,10 @@ export function ResetPasswordForm({ user }) {
                 </FormItem>
               )}
             />
+
+            {form.formState.errors.form && (
+              <FormMessage className="text-center mt-4">{`${form.formState.errors.form.message}`}</FormMessage>
+            )}
           </CardContent>
           <CardFooter>
             <Button className="w-full" type="submit">

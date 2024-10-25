@@ -12,10 +12,23 @@ export async function GET(request) {
   if (token_hash && type) {
     const supabase = createClient();
 
-    const { error } = await supabase.auth.verifyOtp({
+    const {
+      data: { user, session },
+      error,
+    } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     });
+
+    //first refresh the session
+    const {
+      data: { newSession },
+      error: sessionError,
+    } = await supabase.auth.setSession({
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
+    });
+
     if (!error) {
       // redirect user to specified redirect URL or root of app
       redirect(next);
@@ -23,5 +36,7 @@ export async function GET(request) {
   }
 
   // redirect the user to an error page with some instructions
+  console.log(error.message);
+
   redirect("/error");
 }

@@ -3,14 +3,24 @@
 import React from "react";
 
 import { getEvents } from "../../../lib/actions/eventActions";
-import EventSection from "@/components/EventSection";
+import { getCommitteeMembers } from "@/lib/actions/committeeMemberActions";
+import { getHosts } from "@/lib/actions/hostActions";
+import EventsSection from "@/components/EventSection";
 
 const Events = async () => {
-  const events = await getEvents();
+  const [events, committeeMembers, hosts] = await Promise.all([
+    getEvents(),
+    getCommitteeMembers(),
+    getHosts(),
+  ]);
 
   return (
     <>
-      <EventSection events={events} />
+      <EventsSection
+        events={events}
+        committeeMembers={committeeMembers}
+        hosts={hosts}
+      />
     </>
   );
 };
