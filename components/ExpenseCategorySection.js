@@ -29,8 +29,8 @@ const ExpenseCategoriesSection = ({ expenseCategories }) => {
   //console.log(items);
   return (
     <div className="w-full pb-10 px-10">
-      <div className="text-4xl py-10 flex justify-between">
-        <span>Expense Categories</span>
+      <div className=" py-10 flex justify-between">
+        <span className="text-4xl font-bold">Expense Categories</span>
         <Button onClick={addButtonHandler}>Add Expense Category</Button>
       </div>
       <DataTable

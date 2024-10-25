@@ -58,48 +58,46 @@ export function ForgotPasswordForm() {
   };
 
   return (
-    <Card className="w-full max-w-sm">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardHeader>
-            <CardTitle className="text-2xl">Password Recovery</CardTitle>
-            <CardDescription>
-              Enter your email below to recover your account.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="username" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {form.formState.errors.form && (
-              <FormMessage className="text-center mt-4">{`${form.formState.errors.form.message}`}</FormMessage>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <CardHeader className="px-0">
+          <CardTitle className="text-2xl">Password Recovery</CardTitle>
+          <CardDescription>
+            Enter your email below to recover your account.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="px-0">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="username" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-          </CardContent>
-          <CardFooter>
-            <Button className="w-full" type="submit" disabled={sendingEmail}>
-              {sendingEmail ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending Email
-                </>
-              ) : (
-                <>Send Recovery Email</>
-              )}
-            </Button>
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+          />
+
+          {form.formState.errors.form && (
+            <FormMessage className="text-center mt-4">{`${form.formState.errors.form.message}`}</FormMessage>
+          )}
+        </CardContent>
+        <CardFooter>
+          <Button className="w-full" type="submit" disabled={sendingEmail}>
+            {sendingEmail ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Sending Email
+              </>
+            ) : (
+              <>Send Recovery Email</>
+            )}
+          </Button>
+        </CardFooter>
+      </form>
+    </Form>
   );
 }

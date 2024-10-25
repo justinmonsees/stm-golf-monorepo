@@ -258,7 +258,7 @@ const EventDialogForm = ({
       open={isFormOpen}
       defaultOpen={isFormOpen}
     >
-      <DialogContent className="sm:max-w-[80%] max-h-[90%] ">
+      <DialogContent className="sm:max-w-[80%] max-h-[90%] overflow-y-scroll">
         {loading ? (
           <Spinner size="medium" />
         ) : (

@@ -117,7 +117,7 @@ const DashboardSidebar = () => {
               <Link
                 key={index}
                 href={link.path}
-                className={`flex items-center gap-3 rounded-lg mr-auto w-full p-3 transition-all hover:bg-stm-red hover:text-white ${
+                className={`flex items-center gap-3 rounded-lg mr-auto w-full p-3 transition-colors duration-250 hover:bg-stm-red hover:text-white ${
                   currentPath === link.path ? "bg-stm-red text-white" : ""
                 }`}
               >

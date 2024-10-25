@@ -36,9 +36,15 @@ export const columns = [
     enableColumnFilter: false,
     cell: ({ row }) => {
       if (row.original.paid) {
-        return <div className="bg-green-700 text-white text-center">Yes</div>;
+        return (
+          <div className="bg-green-700 text-white text-center rounded-lg">
+            Yes
+          </div>
+        );
       } else {
-        return <div className="bg-red-700 text-white text-center">No</div>;
+        return (
+          <div className="bg-red-700 text-white text-center rounded-lg">No</div>
+        );
       }
     },
   },

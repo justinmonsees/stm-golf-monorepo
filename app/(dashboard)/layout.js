@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowBigLeft } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-export default async function Layout({ children }) {
+export default async function DashboardLayout({ children }) {
   const supabase = createClient();
 
   const viewingEvent = await getViewingEvent();

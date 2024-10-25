@@ -46,8 +46,8 @@ const DonationsSection = ({ donations, items, sponsors, curEvent }) => {
 
   return (
     <div className="w-full pb-10 px-10">
-      <div className="text-4xl py-10 flex justify-between">
-        <span>Donations</span>
+      <div className="py-10 flex justify-between">
+        <span className="text-4xl font-bold">Donations</span>
         <div className="flex gap-3">
           <Button
             disabled={curEvent.is_current_event}

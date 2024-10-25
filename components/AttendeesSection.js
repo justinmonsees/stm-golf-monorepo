@@ -47,8 +47,8 @@ const AttendeesSection = ({ attendees, curEvent }) => {
   //console.log(items);
   return (
     <div className="w-full pb-10 px-10">
-      <div className="text-4xl py-10 flex justify-between">
-        <span>Attendees</span>
+      <div className=" py-10 flex justify-between">
+        <span className="text-4xl font-bold">Attendees</span>
         <div className="flex gap-3">
           <Button
             disabled={curEvent.is_current_event}

@@ -22,8 +22,8 @@ export default async function Reset() {
   const isDefaultPassword = userProfile.needs_reset;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <>
       <ResetPasswordForm user={user} initReset={isDefaultPassword} />
-    </main>
+    </>
   );
 }

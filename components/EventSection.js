@@ -44,8 +44,8 @@ const EventsSection = ({ events, committeeMembers, hosts }) => {
 
   return (
     <div className="w-full pb-10 px-10">
-      <div className="text-4xl py-10 flex justify-between">
-        <span>Event Dates</span>
+      <div className="py-10 flex justify-between">
+        <span className="text-4xl  font-bold">Event Dates</span>
 
         <Button onClick={addButtonHandler}>Add Event</Button>
       </div>
