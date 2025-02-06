@@ -17,6 +17,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        lobster: ["Lobster", "sans-serif"],
+        noto: ["noto", "serif"],
+      },
       colors: {
         "stm-red": {
           DEFAULT: "#560505",
@@ -79,5 +83,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  corePlugins: {
+    fontSize: false,
+  },
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-fluid-type")],
 };
