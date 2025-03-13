@@ -48,6 +48,7 @@ export function ForgotPasswordForm() {
 
     const { data: result, error } = await resetUserPassword(data.username);
 
+    console.log("EMAIL RESULT", result);
     form.setError("form", {
       type: "custom",
       message:

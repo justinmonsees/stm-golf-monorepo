@@ -15,7 +15,12 @@ export default async function AuthLayout({ children }) {
         <div className="max-w-md">{children}</div>
       </div>
       <div id="login-image" className=" w-1/2 h-screen relative ">
-        <Image src="/golfer-sand.jpg" fill={true} objectFit="cover" />
+        <Image
+          src="/golfer-sand.jpg"
+          alt={"Golfer hitting a golf ball in a sandtrap"}
+          fill={true}
+          objectFit="cover"
+        />
       </div>
     </div>
   );

@@ -61,26 +61,24 @@ const ExpenseDialogForm = ({
   const { toast } = useToast();
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
   const [user, setUser] = useState({});
 
-  const getUser = async () => {
-    const { data: profile } = await supabase
-      .from("Profiles")
-      .select("user_id, first_name, last_name,role");
-
-    setUser(profile[0]);
-  };
-
   useEffect(() => {
-    setLoading(true);
+    const getUser = async () => {
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select("user_id, first_name, last_name,role");
+
+      setUser(profile[0]);
+    };
+
     Promise.all([getUser()]).then((data) => {
-      console.log("items received");
       setLoading(false);
     });
-  }, []);
+  }, [supabase]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -93,9 +91,13 @@ const ExpenseDialogForm = ({
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
   useEffect(() => {
     if (expense) {
-      form.reset({
+      reset({
         expenseCategory: expenseCategories
           ? expenseCategories.find(
               (expenseCategory) =>
@@ -109,7 +111,7 @@ const ExpenseDialogForm = ({
         datePaid: convertToLocalDate(new Date(expense.date_paid)),
       });
     } else {
-      form.reset({
+      reset({
         expenseCategory: "",
         name: "",
         description: "",
@@ -117,7 +119,7 @@ const ExpenseDialogForm = ({
         datePaid: null,
       });
     }
-  }, [expense, isFormOpen]);
+  }, [expense, isFormOpen, reset, expenseCategories]);
 
   const onSubmit = async (data) => {
     formHandler();
@@ -194,17 +196,17 @@ const ExpenseDialogForm = ({
       defaultOpen={isFormOpen}
     >
       <DialogContent className="sm:max-w-[550px]">
+        <DialogHeader>
+          <DialogTitle>{expense ? "Edit Expense" : "Add Expense"}</DialogTitle>
+        </DialogHeader>
+        <DialogDescription className="sr-only">
+          Dialog Form to Add or Edit an Expense
+        </DialogDescription>
         {loading ? (
           <Spinner size="medium" />
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <DialogHeader>
-                <DialogTitle>
-                  {expense ? "Edit Expense" : "Add Expense"}
-                </DialogTitle>
-              </DialogHeader>
-
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-1">
                   <FormField

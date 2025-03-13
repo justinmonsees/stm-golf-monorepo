@@ -73,18 +73,19 @@ const SponsorDialogForm = ({
 
   const [user, setUser] = useState({});
 
-  const getUser = async () => {
-    const { data: profile } = await supabase
-      .from("Profiles")
-      .select("user_id, first_name, last_name,role");
-
-    setUser(profile[0]);
-    setLoading(false);
-  };
   useEffect(() => {
     setLoading(true);
+
+    const getUser = async () => {
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select("user_id, first_name, last_name,role");
+
+      setUser(profile[0]);
+      setLoading(false);
+    };
     getUser();
-  }, []);
+  }, [supabase]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -105,26 +106,29 @@ const SponsorDialogForm = ({
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
   useEffect(() => {
     if (sponsor) {
-      console.log("SPONSOR", sponsor);
-      form.reset({
+      reset({
         company: sponsor.company_name,
-        businessPhoneNumber: sponsor.business_phone_number,
+        businessPhoneNumber: sponsor.business_phone_number || "",
         address1: sponsor.address1,
-        address2: sponsor.address2,
+        address2: sponsor.address2 || "",
         city: sponsor.city,
         state: sponsor.state,
         zip: sponsor.zip,
         solicitor: sponsor.committee_member_id,
-        contactPrefix: sponsor.contact_prefix,
+        contactPrefix: sponsor.contact_prefix || "",
         contactFirstName: sponsor.contact_first_name,
         contactLastName: sponsor.contact_last_name,
         contactPhoneNumber: sponsor.contact_phone_number,
-        contactEmail: sponsor.contact_email,
+        contactEmail: sponsor.contact_email || "",
       });
     } else {
-      form.reset({
+      reset({
         company: "",
         businessPhoneNumber: "",
         address1: "",
@@ -140,7 +144,7 @@ const SponsorDialogForm = ({
         contactEmail: "",
       });
     }
-  }, [sponsor, isFormOpen]);
+  }, [sponsor, isFormOpen, reset]);
 
   const onSubmit = async (data) => {
     formHandler();
@@ -165,8 +169,6 @@ const SponsorDialogForm = ({
         sponsor.sponsor_id,
         updateData
       );
-      console.log("UPDATE ERROR", error);
-      console.log("UPDATE RESULT", result);
 
       if (error) {
         toast({
@@ -225,17 +227,19 @@ const SponsorDialogForm = ({
       defaultOpen={isFormOpen}
     >
       <DialogContent className="sm:max-w-[550px]">
+        <DialogHeader>
+          <DialogTitle className="text-4xl pb-5">
+            {sponsor ? "Edit Sponsor" : "Add Sponsor"}
+          </DialogTitle>
+        </DialogHeader>
+        <DialogDescription className="sr-only">
+          Dialog Form to Add or Edit a Sponsor
+        </DialogDescription>
         {loading ? (
           <Spinner size="medium" />
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <DialogHeader>
-                <DialogTitle className="text-4xl pb-5">
-                  {sponsor ? "Edit Sponsor" : "Add Sponsor"}
-                </DialogTitle>
-              </DialogHeader>
-
               <Card className="my-4 pt-3">
                 <CardContent>
                   <div className="grid grid-cols-1">
@@ -281,7 +285,7 @@ const SponsorDialogForm = ({
                 </CardContent>
               </Card>
               <Tabs
-                defaultValue="businessInfo"
+                defaultValue={"businessInfo"}
                 className="w-full min-h-[500px]"
               >
                 <TabsList className="grid w-full grid-cols-2">
@@ -289,7 +293,7 @@ const SponsorDialogForm = ({
                   <TabsTrigger value="contactInfo">Contact Info</TabsTrigger>
                 </TabsList>
                 {/* START OF BUSINESS INFORMATION TAB */}
-                <TabsContent value="businessInfo">
+                <TabsContent value={"businessInfo"}>
                   <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-1 ">
                       <FormField
@@ -406,7 +410,7 @@ const SponsorDialogForm = ({
                 {/* END OF BUSINESS INFORMATION TAB */}
 
                 {/* START OF CONTACT INFORMATION TAB */}
-                <TabsContent value="contactInfo">
+                <TabsContent value={"contactInfo"}>
                   <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-8 gap-4  ">
                       <div className="col-span-2">

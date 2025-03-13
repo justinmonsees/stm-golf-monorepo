@@ -23,7 +23,7 @@ const MainNav = ({ isScrolled, links }) => {
         variant="outline"
         className={`${
           isScrolled ? "border-stm-red" : "border-white"
-        } bg-transparent ml-2`}
+        } bg-transparent ml-2 h-full`}
       >
         <Link href="/register">Register</Link>
       </Button>

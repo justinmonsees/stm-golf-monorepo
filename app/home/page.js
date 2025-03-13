@@ -1,14 +1,45 @@
-"use server";
-
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { getCurrentEvent } from "@/lib/actions/eventActions";
-import { getItems } from "@/lib/actions/itemActions";
 import HeroSection from "@/components/home/HeroSection";
 import Footer from "@/components/home/Footer";
-import { Suspense } from "react";
+import { createClient } from "@/utils/supabase/client";
 
+function getFormattedDateTimeIntl() {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true, // Use 12-hour format
+  });
+  return formatter.format(now);
+}
+
+async function getCurrentEvent() {
+  const supabase = createClient();
+  const { data: event, error } = await supabase
+    .from("Events")
+    .select("*")
+    .is("is_current_event", true);
+
+  return event;
+}
+
+async function getItems() {
+  const supabase = createClient();
+  const { data: items, error } = await supabase
+    .from("Items")
+    .select("*")
+    .eq("is_active", true);
+
+  return items;
+}
+
+//export const revalidate = 86400; // 24 hours in seconds (ISR)
+export const revalidate = 120; // 24 hours in seconds (ISR)
 export default async function Home() {
   const [currentEvent, items] = await Promise.all([
     getCurrentEvent(),
@@ -22,7 +53,7 @@ export default async function Home() {
     : [];
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <>
       <HeroSection eventData={currentEvent[0]} attendeeItems={attendeeItems} />
       <section className="grid grid-cols-1 sm:grid-cols-2 ">
         <div className="bg-white text-black m-auto grid px-4 py-16">
@@ -61,6 +92,7 @@ export default async function Home() {
             fill
             style={{ objectFit: "cover" }}
             alt="golfer in sandtrap"
+            sizes="50vw"
           />
         </div>
       </section>
@@ -109,6 +141,7 @@ export default async function Home() {
         </p>
       </section>
       <Footer />
-    </Suspense>
+      <span>This page was generated on {getFormattedDateTimeIntl()}</span>
+    </>
   );
 }

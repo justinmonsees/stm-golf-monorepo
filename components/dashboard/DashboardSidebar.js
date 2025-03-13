@@ -70,8 +70,6 @@ const DashboardSidebar = () => {
 
   const togglePinned = () => setIsPinned((val) => !val);
 
-  console.log("IS OPEN", isOpen);
-
   return (
     <div
       id="nav-bar"
@@ -87,9 +85,16 @@ const DashboardSidebar = () => {
     >
       <div
         id="nav-bar_header"
-        className=" flex h-[75px] p-2 justify-center items-center  bg-stm-red relative"
+        className=" flex h-[75px] gap-3 p-2 justify-center items-center  bg-stm-red relative"
       >
-        <Image src={"stm_logo.svg"} width={60} height={50} className="mr-3" />
+        <div id="nav-bar-logo" className="w-[60px] h-full relative">
+          <Image
+            src={"stm_logo.svg"}
+            alt={"Church logo of a dove with a heart shaped wing"}
+            fill
+            className="mr-3"
+          />
+        </div>
         <h1
           className={`${isOpen ? "" : "hidden"} text-nowrap text-white text-sm`}
         >

@@ -12,30 +12,27 @@ const CartItem = ({ item }) => {
     cart.addItem(item);
   };
 
-  const reduceItemQtyFromCart = () => {
-    cart.reduceItemQty(item.item_id);
-  };
-
   const removeFromCart = () => {
-    cart.removeItem(item.item_id);
+    cart.removeItem(item.id);
   };
-  console.log(cart);
 
   return (
     <div className="flex">
       {" "}
       {/* flexbox for the items - contains image on left - item info on right */}
-      <div className="w-[50px] relative">
-        {" "}
-        {/* image container div */}
-        <Image
-          className="inline-block"
-          src={`${item.item_image}`}
-          fill
-          style={{ objectFit: "contain" }}
-          alt={`Product Image for ${item.name}`}
-        />
-      </div>
+      {item.item_image && (
+        <div className="w-[50px] relative">
+          {" "}
+          {/* image container div */}
+          <Image
+            className="inline-block"
+            src={`${item.item_image}`}
+            fill
+            style={{ objectFit: "contain" }}
+            alt={`Product Image for ${item.name}`}
+          />
+        </div>
+      )}
       <div className="ml-5 flex flex-col flex-1">
         {/* container for the item info */}
         <div className="flex items-center">
@@ -49,42 +46,12 @@ const CartItem = ({ item }) => {
             <Trash />
           </Button>
         </div>
-
-        <div className="flex">
-          <div className="flex w-full">
-            {/* main div for the buttons */}
-
-            {/*flexbox div the quantity selector */}
-            <div id={`${item.name}-qtySelector`} className="flex items-center">
-              <Button
-                variant="ghost"
-                className="p-[5px] h-7 w-7"
-                onClick={reduceItemQtyFromCart}
-              >
-                <Minus />
-              </Button>
-              <div className="h-7 w-7 border-[1px] border-gray-500 p-1 flex justify-center mx-2">
-                <span className="self-center">
-                  {
-                    cart.items.find(
-                      (cartItem) => cartItem.item_id === item.item_id
-                    ).quantity
-                  }
-                </span>
-              </div>
-              <Button
-                variant="ghost"
-                className="p-[5px] h-7 w-7"
-                onClick={addToCart}
-              >
-                <Plus />
-              </Button>
-            </div>
-          </div>
-          <h1 className="text-center text-lg py-2">
-            ${item.cost * item.quantity}
-          </h1>
-        </div>
+        {/* display custom info. if it's a sponsor display custom text. if it's an attendee display the name */}
+        {item.item_type === "sponsor" ? (
+          <span>Custom Text: {item.meta.preferredText || "default"}</span>
+        ) : (
+          <span>{item.meta.firstName + " " + item.meta.lastName}</span>
+        )}
       </div>
     </div>
   );

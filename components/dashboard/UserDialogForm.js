@@ -67,23 +67,27 @@ const UserDialogForm = ({ isFormOpen, formHandler, user = null }) => {
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
   useEffect(() => {
     if (user) {
-      form.reset({
+      reset({
         role: user.role,
         firstName: user.first_name,
         lastName: user.last_name,
         email: user.email,
       });
     } else {
-      form.reset({
+      reset({
         role: "user",
         firstName: "",
         lastName: "",
         email: "",
       });
     }
-  }, [user, isFormOpen]);
+  }, [user, isFormOpen, reset]);
 
   const onSubmit = async (data) => {
     console.log("USER DATA", data);
@@ -150,6 +154,9 @@ const UserDialogForm = ({ isFormOpen, formHandler, user = null }) => {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>{user ? "Edit User" : "Add User"}</DialogTitle>
+              <DialogDescription className="sr-only">
+                Add or Edit a User Dialog
+              </DialogDescription>
             </DialogHeader>
 
             <div className="grid gap-4 py-4">
@@ -209,6 +216,7 @@ const UserDialogForm = ({ isFormOpen, formHandler, user = null }) => {
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        name="attendeeType"
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -220,8 +228,8 @@ const UserDialogForm = ({ isFormOpen, formHandler, user = null }) => {
                         <SelectContent>
                           {USER_OPTIONS.map((item, index) => {
                             return (
-                              <SelectItem key={index} value={item.item_id}>
-                                {item.name}
+                              <SelectItem key={index} value={item}>
+                                {item}
                               </SelectItem>
                             );
                           })}

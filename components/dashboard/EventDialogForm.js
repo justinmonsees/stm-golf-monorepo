@@ -39,6 +39,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -79,18 +80,20 @@ const EventDialogForm = ({
 
   const [user, setUser] = useState({});
 
-  const getUser = async () => {
-    const { data: profile } = await supabase
-      .from("Profiles")
-      .select("user_id, first_name, last_name,role");
-
-    setUser(profile[0]);
-    setLoading(false);
-  };
   useEffect(() => {
     setLoading(true);
+
+    const getUser = async () => {
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select("user_id, first_name, last_name,role");
+
+      setUser(profile[0]);
+      setLoading(false);
+    };
+
     getUser();
-  }, []);
+  }, [supabase]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -111,9 +114,13 @@ const EventDialogForm = ({
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
   useEffect(() => {
     if (event) {
-      form.reset({
+      reset({
         eventDate: convertToLocalDate(new Date(event.event_date)),
         arrivalTime: event.arrival_time,
         startTime: event.start_time,
@@ -129,7 +136,7 @@ const EventDialogForm = ({
         host: event.host_id,
       });
     } else {
-      form.reset({
+      reset({
         eventDate: null,
         arrivalTime: "",
         startTime: "",
@@ -145,7 +152,7 @@ const EventDialogForm = ({
         host: hosts[0].host_id,
       });
     }
-  }, [event, isFormOpen]);
+  }, [event, isFormOpen, reset, hosts]);
 
   const onSubmit = async (data) => {
     formHandler();
@@ -259,20 +266,24 @@ const EventDialogForm = ({
       defaultOpen={isFormOpen}
     >
       <DialogContent className="sm:max-w-[80%] max-h-[90%] overflow-y-scroll">
+        <DialogHeader className="mb-2">
+          <DialogTitle>{event ? "Edit Event" : "Add Event"}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Dialog Form to Add or Edit an Event
+          </DialogDescription>
+        </DialogHeader>
         {loading ? (
           <Spinner size="medium" />
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <DialogHeader className="mb-2">
-                <DialogTitle>{event ? "Edit Event" : "Add Event"}</DialogTitle>
-                <div className="flex align-middle py-2">
-                  <span className="mr-4 text-sm">
-                    Duplicate information from last event?
-                  </span>
-                  {event ? "" : <Switch onCheckedChange={handleSwitchEvent} />}
-                </div>
-              </DialogHeader>
+              <div className="flex align-middle py-2">
+                <span className="mr-4 text-sm">
+                  Duplicate information from last event?
+                </span>
+                {event ? "" : <Switch onCheckedChange={handleSwitchEvent} />}
+              </div>
+
               <div id="DialogBody" className=" grid grid-cols-2 gap-5 pb-5">
                 <div id="gridLeftCol">
                   <fieldset

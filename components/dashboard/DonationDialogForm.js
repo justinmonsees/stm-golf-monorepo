@@ -65,18 +65,20 @@ const DonationDialogForm = ({
 
   const [user, setUser] = useState({});
 
-  const getUser = async () => {
-    const { data: profile } = await supabase
-      .from("Profiles")
-      .select("user_id, first_name, last_name,role");
-
-    setUser(profile[0]);
-    setLoading(false);
-  };
   useEffect(() => {
     setLoading(true);
+
+    const getUser = async () => {
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select("user_id, first_name, last_name,role");
+
+      setUser(profile[0]);
+      setLoading(false);
+    };
+
     getUser();
-  }, []);
+  }, [supabase]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -89,9 +91,13 @@ const DonationDialogForm = ({
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
   useEffect(() => {
     if (donation) {
-      form.reset({
+      reset({
         sponsor: donation.sponsor_id,
         item: donation.item_id,
         amountReceived: donation.amount_received,
@@ -99,7 +105,7 @@ const DonationDialogForm = ({
         notes: donation.notes,
       });
     } else {
-      form.reset({
+      reset({
         sponsor: "",
         item: "",
         amountReceived: "",
@@ -107,7 +113,7 @@ const DonationDialogForm = ({
         notes: "",
       });
     }
-  }, [donation, isFormOpen]);
+  }, [donation, isFormOpen, reset]);
 
   const onSubmit = async (data) => {
     formHandler();
@@ -182,6 +188,9 @@ const DonationDialogForm = ({
       defaultOpen={isFormOpen}
     >
       <DialogContent className="sm:max-w-[550px]">
+        <DialogDescription className="sr-only">
+          Dialog Form to Add or Edit a Donation
+        </DialogDescription>
         {loading ? (
           <Spinner size="medium" />
         ) : (

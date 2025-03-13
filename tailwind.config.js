@@ -86,5 +86,24 @@ module.exports = {
   corePlugins: {
     fontSize: false,
   },
-  plugins: [require("tailwindcss-animate"), require("tailwindcss-fluid-type")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwindcss-fluid-type"),
+    function ({ addUtilities }) {
+      addUtilities({
+        ".backface-visible": {
+          "backface-visibility": "visible",
+        },
+        ".backface-hidden": {
+          "backface-visibility": "hidden",
+        },
+        ".rotate-y-180": {
+          transform: "rotateY(180deg)",
+        },
+        ".preserve-3d": {
+          "transform-style": "preserve-3d",
+        },
+      });
+    },
+  ],
 };

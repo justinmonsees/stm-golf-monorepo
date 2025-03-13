@@ -20,64 +20,54 @@ import { FloatingLabelInput } from "../ui/floating-label-input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateInvoicePDF } from "@/lib/invoices/invoice";
 
-export const sponsorSchema = z.object({
-  company: z.string().min(1),
-  businessPhoneNumber: z.string(),
+export const attendeeSchema = z.object({
+  prefix: z.string(),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  phoneNumber: z.string().min(10),
+  email: z.string().email(),
   address1: z.string().min(1),
   address2: z.string(),
   city: z.string().min(1),
   state: z.string().min(2).max(2),
   zip: z.string().min(5),
-  solicitor: z.string(),
-  contactPrefix: z.string(),
-  contactFirstName: z.string().min(1),
-  contactLastName: z.string().min(1),
-  contactPhoneNumber: z.string().min(10),
-  contactEmail: z.string().email(),
 });
 
-export const sponsorDefaultValues = {
-  solicitor: "",
-  company: "",
-  businessPhoneNumber: "",
+export const attendeeDefaultValues = {
+  prefix: "",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  email: "",
   address1: "",
   address2: "",
   city: "",
   state: "",
   zip: "",
-  contactPrefix: "",
-  contactFirstName: "",
-  contactLastName: "",
-  contactPhoneNumber: "",
-  contactEmail: "",
 };
 
-const SponsorCheckoutForm = ({ formControl }) => {
+const AttendeeCheckoutForm = ({ formControl }) => {
   const cart = useCart();
 
   const form = useForm({
-    resolver: zodResolver(sponsorSchema),
-    defaultValues: sponsorDefaultValues,
+    resolver: zodResolver(attendeeSchema),
+    defaultValues: attendeeDefaultValues,
   });
 
   const onSubmit = async (data) => {
     const purchaser = {
-      type: "business",
-      companyInfo: {
-        company: data.company,
+      type: "personal",
+      contactInfo: {
+        prefix: data.prefix,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        email: data.email,
         address1: data.address1,
         address2: data.address2,
         city: data.city,
         state: data.state,
         zip: data.zip,
-        businessPhoneNumber: data.businessPhoneNumber,
-      },
-      contactInfo: {
-        prefix: data.contactPrefix,
-        firstName: data.contactFirstName,
-        lastName: data.contactLastName,
-        phoneNumber: data.contactPhoneNumber,
-        email: data.contactEmail,
       },
     };
     generateInvoicePDF(purchaser, cart.items);
@@ -86,38 +76,66 @@ const SponsorCheckoutForm = ({ formControl }) => {
   return (
     <Card className="mx-4">
       <CardContent>
-        <CardTitle className="mt-5">Sponsor Information</CardTitle>
+        <CardTitle className="mt-5">Contact Information</CardTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-1 ">
-                <FormField
-                  control={form.control}
-                  name="solicitor"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input type="hidden" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="company"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <FloatingLabelInput
-                          id="company"
-                          label="Company"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="grid grid-cols-8 gap-4  ">
+                <div className="col-span-2">
+                  <FormField
+                    control={form.control}
+                    name="prefix"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <FloatingLabelInput
+                            id="prefix"
+                            label="Prefix"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="col-span-3">
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <FloatingLabelInput
+                            id="firstName"
+                            label="First Name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="col-span-3">
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <FloatingLabelInput
+                            id="lastName"
+                            label="Last Name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-1">
@@ -214,93 +232,16 @@ const SponsorCheckoutForm = ({ formControl }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 ">
-                <FormField
-                  control={form.control}
-                  name="businessPhoneNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <FloatingLabelInput
-                          id="businessPhoneNumber"
-                          label="Business Phone Number"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <CardTitle className="mt-5">Contact Information</CardTitle>
               <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-8 gap-4  ">
-                  <div className="col-span-2">
-                    <FormField
-                      control={form.control}
-                      name="contactPrefix"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <FloatingLabelInput
-                              id="contactPrefix"
-                              label="Prefix"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="col-span-3">
-                    <FormField
-                      control={form.control}
-                      name="contactFirstName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <FloatingLabelInput
-                              id="contactFirstName"
-                              label="First Name"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="col-span-3">
-                    <FormField
-                      control={form.control}
-                      name="contactLastName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <FloatingLabelInput
-                              id="contactLastName"
-                              label="Last Name"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
                 <div className="grid grid-cols-1 ">
                   <FormField
                     control={form.control}
-                    name="contactPhoneNumber"
+                    name="phoneNumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
                           <FloatingLabelInput
-                            id="contactPhoneNumber"
+                            id="phoneNumber"
                             label="Phone Number"
                             {...field}
                           />
@@ -313,12 +254,12 @@ const SponsorCheckoutForm = ({ formControl }) => {
                 <div className="grid grid-cols-1 ">
                   <FormField
                     control={form.control}
-                    name="contactEmail"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
                           <FloatingLabelInput
-                            id="contactEmail"
+                            id="email"
                             label="Email"
                             {...field}
                           />
@@ -338,4 +279,4 @@ const SponsorCheckoutForm = ({ formControl }) => {
   );
 };
 
-export default SponsorCheckoutForm;
+export default AttendeeCheckoutForm;

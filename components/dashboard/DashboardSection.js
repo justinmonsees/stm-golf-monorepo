@@ -155,10 +155,10 @@ const DashboardSection = ({ stats }) => {
                   left: 10,
                 }}
               >
-                <XAxis type="number" dataKey="amount" hide />
+                <XAxis type={"number"} dataKey={"amount"} hide />
                 <YAxis
-                  dataKey="item"
-                  type="category"
+                  dataKey={"item"}
+                  type={"category"}
                   tickLine={false}
                   tickMargin={10}
                   axisLine={false}

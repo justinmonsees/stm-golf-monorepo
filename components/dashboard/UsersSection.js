@@ -35,6 +35,7 @@ const UsersSection = ({ users }) => {
         columns={columns}
         data={users}
         openEditFunction={editButtonHandler}
+        initSortCol={"user_fullName"}
       />
 
       <UserDialogForm

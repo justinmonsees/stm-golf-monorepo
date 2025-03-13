@@ -13,20 +13,18 @@ const EventsSection = ({ events, committeeMembers, hosts }) => {
   const [isEventFormOpen, setEventFormOpen] = useState(false);
   const [eventsExpired, setEventsExpired] = useState(false);
 
-  const curEvent = events.find((event) => event.is_current_event === true);
-
-  const localDate = convertToLocalDate(curEvent.event_date);
-
-  const curEventDate = new Date(localDate);
-  const today = new Date();
-
   useEffect(() => {
+    const curEvent = events.find((event) => event.is_current_event === true);
+    const localDate = convertToLocalDate(curEvent.event_date);
+    const curEventDate = new Date(localDate);
+    const today = new Date();
+
     if (curEventDate < today) {
       setEventsExpired(true);
     } else if (curEventDate > today) {
       setEventsExpired(false);
     }
-  }, []);
+  }, [events]);
 
   const editButtonHandler = (rowData) => {
     setEditEventData(rowData);

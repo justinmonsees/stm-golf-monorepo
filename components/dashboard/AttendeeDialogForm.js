@@ -62,48 +62,11 @@ const AttendeeDialogForm = ({ isFormOpen, formHandler, attendee = null }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
 
   const [user, setUser] = useState({});
   const [attendeeItems, setAttendeeItems] = useState([]);
   const [currentEventID, setCurrentEventID] = useState("");
 
-  const getUser = async () => {
-    const { data: profile } = await supabase
-      .from("Profiles")
-      .select("user_id, first_name, last_name,role");
-
-    setUser(profile[0]);
-  };
-
-  const getAttendeeItems = async () => {
-    const { data: items } = await supabase
-      .from("Items")
-      .select("*")
-      .eq("item_type", "attendee");
-
-    setAttendeeItems(items);
-  };
-
-  const getCurrentEvent = async () => {
-    const { data: eventID } = await supabase
-      .from("Events")
-      .select("event_id")
-      .eq("is_current_event", true);
-
-    setCurrentEventID(eventID[0].event_id);
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    Promise.all([getUser(), getAttendeeItems(), getCurrentEvent()]).then(
-      (data) => {
-        console.log("items received");
-        setLoading(false);
-      }
-    );
-  }, []);
-  console.log(attendeeItems);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -123,9 +86,50 @@ const AttendeeDialogForm = ({ isFormOpen, formHandler, attendee = null }) => {
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
+  useEffect(() => {
+    setLoading(true);
+    const supabase = createClient();
+
+    const getUser = async () => {
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select("user_id, first_name, last_name,role");
+
+      setUser(profile[0]);
+    };
+
+    const getAttendeeItems = async () => {
+      const { data: items } = await supabase
+        .from("Items")
+        .select("*")
+        .eq("item_type", "attendee");
+
+      setAttendeeItems(items);
+    };
+
+    const getCurrentEvent = async () => {
+      const { data: eventID } = await supabase
+        .from("Events")
+        .select("event_id")
+        .eq("is_current_event", true);
+
+      setCurrentEventID(eventID[0].event_id);
+    };
+
+    Promise.all([getUser(), getAttendeeItems(), getCurrentEvent()]).then(
+      (data) => {
+        setLoading(false);
+      }
+    );
+  }, []);
+
   useEffect(() => {
     if (attendee) {
-      form.reset({
+      reset({
         attendeeType: attendeeItems
           ? attendeeItems.find((item) => item.name === attendee.attendee_type)
               ?.item_id
@@ -142,7 +146,7 @@ const AttendeeDialogForm = ({ isFormOpen, formHandler, attendee = null }) => {
         datePaid: convertToLocalDate(new Date(attendee.date_paid)),
       });
     } else {
-      form.reset({
+      reset({
         attendeeType: attendeeItems
           ? attendeeItems.find((item) => item.name === "Golfer")?.item_id
           : "",
@@ -158,10 +162,9 @@ const AttendeeDialogForm = ({ isFormOpen, formHandler, attendee = null }) => {
         datePaid: null,
       });
     }
-  }, [attendee, isFormOpen]);
+  }, [attendee, isFormOpen, attendeeItems, reset]);
 
   const onSubmit = async (data) => {
-    console.log(data.attendeeType);
     formHandler();
     //If there's an existing item, edit the item
     if (attendee) {
@@ -230,7 +233,6 @@ const AttendeeDialogForm = ({ isFormOpen, formHandler, attendee = null }) => {
         event_id: currentEventID,
       };
 
-      console.log(newAttendeeData);
       const { result, error } = await addAttendee(newAttendeeData);
 
       if (error) {
@@ -256,17 +258,19 @@ const AttendeeDialogForm = ({ isFormOpen, formHandler, attendee = null }) => {
       defaultOpen={isFormOpen}
     >
       <DialogContent className="sm:max-w-[550px]">
+        <DialogHeader>
+          <DialogTitle>
+            {attendee ? "Edit Attendee" : "Add Attendee"}
+          </DialogTitle>
+        </DialogHeader>
+        <DialogDescription className="sr-only">
+          Dialog Form to Add or Edit an Attendee
+        </DialogDescription>
         {loading ? (
           <Spinner size="medium" />
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <DialogHeader>
-                <DialogTitle>
-                  {attendee ? "Edit Attendee" : "Add Attendee"}
-                </DialogTitle>
-              </DialogHeader>
-
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-1">
                   <FormField

@@ -5,9 +5,7 @@ import UserButton from "@/components/dashboard/UserButton";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import { getViewingEvent } from "@/lib/actions/eventActions";
 import { format } from "date-fns";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ArrowBigLeft } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
 
 export default async function DashboardLayout({ children }) {

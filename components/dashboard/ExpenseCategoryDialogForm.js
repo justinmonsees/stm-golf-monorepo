@@ -57,17 +57,21 @@ const ExpenseCategoryDialogForm = ({
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
   useEffect(() => {
     if (expenseCategory) {
-      form.reset({
+      reset({
         expenseCategoryName: expenseCategory.name,
       });
     } else {
-      form.reset({
+      reset({
         expenseCategoryName: "",
       });
     }
-  }, [expenseCategory, isFormOpen]);
+  }, [expenseCategory, isFormOpen, reset]);
 
   const onSubmit = async (data) => {
     formHandler();
@@ -128,6 +132,9 @@ const ExpenseCategoryDialogForm = ({
       defaultOpen={isFormOpen}
     >
       <DialogContent className="sm:max-w-[425px]">
+        <DialogDescription className="sr-only">
+          Dialog Form to Add or Edit an Expense Category
+        </DialogDescription>
         {loading ? (
           <Spinner size="medium" />
         ) : (

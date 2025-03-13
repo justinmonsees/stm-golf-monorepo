@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, XCircle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,11 +24,14 @@ import {
 } from "@/components/ui/form";
 
 export function DatePicker({ field }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Popover>
+    <Popover open={isOpen} modal={true} o>
       <PopoverTrigger asChild>
         <FormControl>
           <Button
+            onClick={() => setIsOpen(!isOpen)}
             variant={"outline"}
             className={cn(
               "w-full pl-3 text-left font-normal flex",
@@ -51,6 +54,15 @@ export function DatePicker({ field }) {
           onSelect={field.onChange}
           initialFocus
         />
+        <div className="flex justify-center w-full mb-2">
+          <Button
+            className="text-xs p-1 h-auto hover:text-white hover:bg-green-700"
+            variant="outline"
+            onClick={() => setIsOpen(false)}
+          >
+            Save and Close
+          </Button>
+        </div>
       </PopoverContent>
     </Popover>
   );

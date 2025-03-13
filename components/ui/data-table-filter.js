@@ -13,7 +13,7 @@ const ColumnFilter = ({ column }) => {
   const sortedUniqueValues = useMemo(
     () =>
       Array.from(column.getFacetedUniqueValues().keys()).sort().slice(0, 5000),
-    [column.getFacetedUniqueValues()]
+    [column]
   );
 
   return (

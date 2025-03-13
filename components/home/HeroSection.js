@@ -19,7 +19,7 @@ const HeroSection = ({ eventData, attendeeItems }) => {
 
   return (
     <>
-      <section className="h-full">
+      <section className="h-full relative">
         <Image
           src={"/hero-bg.png"}
           alt="Background image of hero section depicting a golf course."
@@ -55,15 +55,21 @@ const HeroSection = ({ eventData, attendeeItems }) => {
           </div>
 
           <div className="mt-auto grid lg:grid-cols-4 sm:grid-cols-2 w-full gap-y-3 gap-x-3 p-3">
-            <InfoCard infoIcon={<Calendar />} infoText={eventDate}></InfoCard>
+            <InfoCard
+              infoIcon={<Calendar />}
+              infoTitle={"Date"}
+              infoText={eventDate}
+            ></InfoCard>
 
             <InfoCard
               infoIcon={<Clock />}
+              infoTitle={"Time"}
               infoText={`Registration: ${eventData.arrival_time}\nShotgun Start: ${eventData.start_time}`}
             ></InfoCard>
 
             <InfoCard
               infoIcon={<DollarSign />}
+              infoTitle={"Cost"}
               infoText={attendeeItems
                 .map((item) => `$${item.cost} Per ${item.name}`)
                 .join(`\n`)}
@@ -71,6 +77,7 @@ const HeroSection = ({ eventData, attendeeItems }) => {
 
             <InfoCard
               infoIcon={<MapPinned />}
+              infoTitle={"Location"}
               infoText={`${eventData.venue_name}\n${eventData.venue_address}${
                 eventData.venue_address2 ? eventData.venue_address2 : ""
               }\n${eventData.venue_city}, ${eventData.venue_state} ${

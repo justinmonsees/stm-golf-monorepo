@@ -48,18 +48,18 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
 
   const [user, setUser] = useState({});
 
-  const getUser = async () => {
-    const { data: profile } = await supabase
-      .from("Profiles")
-      .select("user_id, first_name, last_name,role");
-
-    setUser(profile[0]);
-    setLoading(false);
-  };
   useEffect(() => {
     setLoading(true);
+    const getUser = async () => {
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select("user_id, first_name, last_name,role");
+
+      setUser(profile[0]);
+      setLoading(false);
+    };
     getUser();
-  }, []);
+  }, [supabase]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -71,27 +71,31 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
     },
   });
 
+  // extract the reset function from the form object to be used as a stable
+  //  reference inside the useEffect call
+  const { reset } = form;
+
   useEffect(() => {
     if (item) {
       let itemImage = "";
       if (item.item_image) {
         itemImage = item.item_image;
       }
-      form.reset({
+      reset({
         itemName: item.name,
         itemCost: item.cost,
         itemType: item.item_type,
         itemImage: itemImage,
       });
     } else {
-      form.reset({
+      reset({
         itemName: "",
         itemCost: "",
         itemType: "",
         itemImage: "",
       });
     }
-  }, [item, isFormOpen]);
+  }, [item, isFormOpen, reset]);
 
   const onSubmit = async (data) => {
     formHandler();
@@ -153,6 +157,9 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
       defaultOpen={isFormOpen}
     >
       <DialogContent className="sm:max-w-[425px]">
+        <DialogDescription className="sr-only">
+          Dialog Form to Add or Edit an Item
+        </DialogDescription>
         {loading ? (
           <Spinner size="medium" />
         ) : (
