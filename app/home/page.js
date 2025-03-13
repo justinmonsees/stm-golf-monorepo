@@ -5,18 +5,18 @@ import HeroSection from "@/components/home/HeroSection";
 import Footer from "@/components/home/Footer";
 import { createClient } from "@/utils/supabase/client";
 
-function getFormattedDateTimeIntl() {
-  const now = new Date();
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    month: "2-digit",
-    day: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true, // Use 12-hour format
-  });
-  return formatter.format(now);
-}
+// function getFormattedDateTimeIntl() {
+//   const now = new Date();
+//   const formatter = new Intl.DateTimeFormat("en-US", {
+//     month: "2-digit",
+//     day: "2-digit",
+//     year: "numeric",
+//     hour: "2-digit",
+//     minute: "2-digit",
+//     hour12: true, // Use 12-hour format
+//   });
+//   return formatter.format(now);
+// }
 
 async function getCurrentEvent() {
   const supabase = createClient();
@@ -38,8 +38,8 @@ async function getItems() {
   return items;
 }
 
-//export const revalidate = 86400; // 24 hours in seconds (ISR)
-export const revalidate = 120; // 24 hours in seconds (ISR)
+export const revalidate = 86400; // 24 hours in seconds (ISR)
+//export const revalidate = 120; // 24 hours in seconds (ISR)
 export default async function Home() {
   const [currentEvent, items] = await Promise.all([
     getCurrentEvent(),
@@ -141,7 +141,6 @@ export default async function Home() {
         </p>
       </section>
       <Footer />
-      <span>This page was generated on {getFormattedDateTimeIntl()}</span>
     </>
   );
 }
