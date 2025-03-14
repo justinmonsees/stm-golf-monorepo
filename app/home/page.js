@@ -39,7 +39,7 @@ async function getItems() {
 }
 
 export const revalidate = 86400; // 24 hours in seconds (ISR)
-//export const revalidate = 120; // 24 hours in seconds (ISR)
+
 export default async function Home() {
   const [currentEvent, items] = await Promise.all([
     getCurrentEvent(),

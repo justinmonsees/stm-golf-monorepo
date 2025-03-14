@@ -46,9 +46,16 @@ export default async function middleware(req) {
     return NextResponse.rewrite(
       new URL(`/dashboard${path === "/" ? "" : path}`, req.url)
     );
-  } else if (hostname === `api.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+  } else if (url.pathname.startsWith("/api")) {
+    console.log("sent an api request");
+    console.log(
+      new URL(
+        `/api${path === "/" ? "" : path.replace("/api", "")}`,
+        req.url
+      ).toString()
+    );
     return NextResponse.rewrite(
-      new URL(`/api${path === "/" ? "" : path}`, req.url)
+      new URL(`/api${path === "/" ? "" : path.replace("/api", "")}`, req.url)
     );
   }
 

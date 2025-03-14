@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "https://api.stmgolf.org/revalidate",
+      "path": "/api/revalidate",
       "schedule": "0 22 * * 5"
     }
   ]
