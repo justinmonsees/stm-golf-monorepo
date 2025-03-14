@@ -1,7 +1,6 @@
 {
   "crons": [
     {
-      "name": "Revalidate Pages",
       "path": "/api/revalidate?secret=$REVALIDATE_SECRET_TOKEN",
       "schedule": "0 22 * * 5"
     }
