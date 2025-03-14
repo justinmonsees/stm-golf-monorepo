@@ -12,7 +12,7 @@ export async function GET(request) {
   }
 
   //revalidate the homepage
-  revalidatePath("/");
+  revalidatePath("/home");
 
   return NextResponse.json({ revalidated: true });
 }
