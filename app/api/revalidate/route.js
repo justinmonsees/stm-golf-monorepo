@@ -1,4 +1,6 @@
-import { revalidatePath } from "next/cache";
+"use server";
+
+import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -10,9 +12,8 @@ export async function GET(request) {
       { status: 401 }
     );
   }
-
-  //revalidate the homepage
-  revalidatePath("/home");
+  const supabase = createClient();
+  const { data, error } = await supabase.from("Events").select("*").limit(0);
 
   return NextResponse.json({ revalidated: true });
 }
