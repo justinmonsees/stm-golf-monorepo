@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/revalidate?secret=$REVALIDATE_SECRET_TOKEN",
+      "command": "/api/revalidate?secret=$REVALIDATE_SECRET_TOKEN",
       "schedule": "0 22 * * 5"
     }
   ]
