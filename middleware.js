@@ -46,13 +46,14 @@ export default async function middleware(req) {
     return NextResponse.rewrite(
       new URL(`/dashboard${path === "/" ? "" : path}`, req.url)
     );
+  } else if (hostname === `api.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+    return NextResponse.rewrite(
+      new URL(`/api${path === "/" ? "" : path}`, req.url)
+    );
   }
 
-  // rewrite root application to `/home` folder
-  if (
-    hostname === "localhost:3000" ||
-    hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN
-  ) {
+  // rewrite any other request other than api or dashboard to `/home` folder
+  else {
     return NextResponse.rewrite(
       new URL(`/home${path === "/" ? "" : path}`, req.url)
     );
