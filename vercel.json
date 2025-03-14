@@ -1,9 +1,9 @@
 {
-  "cronJobs": [
+  "crons": [
     {
       "name": "Revalidate Pages",
       "command": "curl -X GET https://NEXT_PUBLIC_ROOT_DOMAIN/api/revalidate?secret=$REVALIDATE_SECRET_TOKEN",
-      "schedules": ["0 22 * * 5"]
+      "schedule": "0 22 * * 5"
     }
   ]
 }
