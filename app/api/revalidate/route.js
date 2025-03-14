@@ -2,14 +2,17 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
-  const secret = request.nextUrl.searchParams.get("secret");
+  const authHeader = request.headers.get("authorization");
 
-  if (secret !== process.env.REVALIDATE_SECRET_TOKEN) {
-    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json(
+      { message: "Unauthorized Request" },
+      { status: 401 }
+    );
   }
 
-  const path = request.nextUrl.searchParams.get("path") || "/";
+  //revalidate the homepage
+  revalidatePath("/");
 
-  revalidatePath(path);
   return NextResponse.json({ revalidated: true });
 }
