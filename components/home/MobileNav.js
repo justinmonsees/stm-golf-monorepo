@@ -9,9 +9,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const MobileNav = ({ isScrolled, links }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleLinkClick = () => {
+    setOpen(false); // Explicitly close the Sheet
+  };
+
   const mobileLinks = useMemo(
     () => [
       {
@@ -29,7 +35,7 @@ const MobileNav = ({ isScrolled, links }) => {
         isScrolled ? "text-stm-red" : "text-white"
       } uppercase font-semibold `}
     >
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="outline" className=" bg-transparent">
             <Menu />
@@ -50,6 +56,7 @@ const MobileNav = ({ isScrolled, links }) => {
               <Link
                 key={index}
                 href={link.location}
+                onClick={handleLinkClick}
                 className=" flex px-2 py-1 items-center uppercase text-4xl font-black tracking-wide"
               >
                 {link.title}
