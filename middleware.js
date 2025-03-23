@@ -1,4 +1,5 @@
 import { updateSession } from "@/utils/supabase/middleware";
+import { notFound } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export const config = {
@@ -47,13 +48,6 @@ export default async function middleware(req) {
       new URL(`/dashboard${path === "/" ? "" : path}`, req.url)
     );
   } else if (url.pathname.startsWith("/api")) {
-    console.log("sent an api request");
-    console.log(
-      new URL(
-        `/api${path === "/" ? "" : path.replace("/api", "")}`,
-        req.url
-      ).toString()
-    );
     return NextResponse.rewrite(
       new URL(`/api${path === "/" ? "" : path.replace("/api", "")}`, req.url)
     );

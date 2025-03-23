@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import MainNav from "./MainNav";
+import MobileNav from "./MobileNav";
 import ShoppingCartDrawer from "./ShoppingCartDrawer";
+
 const Header = () => {
   const links = [
     {
@@ -48,6 +50,7 @@ const Header = () => {
       </Link>
 
       <MainNav isScrolled={isScrolled} links={links} />
+      <MobileNav isScrolled={isScrolled} links={links} />
       <ShoppingCartDrawer isScrolled={isScrolled} />
     </div>
   );

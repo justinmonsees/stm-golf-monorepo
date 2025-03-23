@@ -105,7 +105,9 @@ const SponsorProductCard = ({ item }) => {
               className="h-full flex flex-col"
             >
               <CardHeader>
-                <CardTitle>Customize Text</CardTitle>
+                <CardTitle className="text-lg">
+                  {`Customize Your Sponsorship\nSignage Text`}
+                </CardTitle>
                 <p className="text-xs">
                   {`If nothing is entered, we'll use your company name by
                   default.`}

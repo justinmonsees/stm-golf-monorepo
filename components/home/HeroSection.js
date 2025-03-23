@@ -54,7 +54,7 @@ const HeroSection = ({ eventData, attendeeItems }) => {
             </Button>
           </div>
 
-          <div className="mt-auto grid lg:grid-cols-4 sm:grid-cols-2 w-full gap-y-3 gap-x-3 p-3">
+          <div className="mt-auto grid lg:grid-cols-4 sm:grid-cols-2 w-full gap-y-3 gap-x-3 py-3 px-8">
             <InfoCard
               infoIcon={<Calendar />}
               infoTitle={"Date"}

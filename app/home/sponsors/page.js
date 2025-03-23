@@ -48,7 +48,7 @@ const Sponsors = async () => {
       <Header />
       <PageHeader pageTitle="Past Sponsors" />
 
-      <section id="Sponsors" className="bg-gray-100 py-5">
+      <section id="Sponsors" className="bg-gray-100 p-5">
         {pastSponsors.length > 0 ? (
           pastSponsors.map((item, index) => {
             return (

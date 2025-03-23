@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 const MainNav = ({ isScrolled, links }) => {
   return (
     <div
-      className={`flex ml-auto ${
+      className={` ml-auto hidden sm:flex ${
         isScrolled ? "text-stm-red" : "text-white"
       } uppercase font-semibold `}
     >

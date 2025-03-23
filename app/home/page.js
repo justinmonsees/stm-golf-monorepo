@@ -106,7 +106,7 @@ export default async function Home() {
         />
         <div className="bg-blend-overlay bg-white/80 flex text-center flex-col items-center py-16">
           <h2 className="uppercase text-5xl font-bold pb-5">Sponsors</h2>
-          <p className="md:w-[50%] text-center pb-5">
+          <p className="xs:w-[80%] md:w-[50%] text-center pb-5">
             Thank you to all of our sponsors! <br /> Check out our past sponsors
             who have made this event a great success and please consider making
             a donation and sponsoring this year’s golf outing!{" "}
@@ -130,7 +130,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="flex flex-col w-full bg-stm-red px-4 py-10 items-center justify-center">
+      <section className="flex flex-col w-full bg-stm-red px-5 py-10 items-center justify-center">
         <h2 className="text-4xl text-white pb-5 text-center">
           Interested in helping on the golf commitee?
         </h2>
