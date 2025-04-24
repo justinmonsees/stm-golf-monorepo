@@ -5,18 +5,18 @@ import HeroSection from "@/components/home/HeroSection";
 import Footer from "@/components/home/Footer";
 import { createClient } from "@/utils/supabase/client";
 
-// function getFormattedDateTimeIntl() {
-//   const now = new Date();
-//   const formatter = new Intl.DateTimeFormat("en-US", {
-//     month: "2-digit",
-//     day: "2-digit",
-//     year: "numeric",
-//     hour: "2-digit",
-//     minute: "2-digit",
-//     hour12: true, // Use 12-hour format
-//   });
-//   return formatter.format(now);
-// }
+function getFormattedDateTimeIntl() {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true, // Use 12-hour format
+  });
+  return formatter.format(now);
+}
 
 async function getCurrentEvent() {
   const supabase = createClient();
@@ -141,6 +141,9 @@ export default async function Home() {
         </p>
       </section>
       <Footer />
+      <section>
+        <p>{`Last Generated on ${getFormattedDateTimeIntl()}`}</p>
+      </section>
     </>
   );
 }

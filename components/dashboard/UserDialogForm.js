@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { resetUserPassword } from "@/lib/actions/userActions";
 
 import {
   Dialog,
@@ -14,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DatePicker } from "../ui/datepicker";
+
 import {
   Form,
   FormControl,
@@ -34,8 +35,6 @@ import {
 } from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Spinner } from "../ui/spinner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -90,17 +89,17 @@ const UserDialogForm = ({ isFormOpen, formHandler, user = null }) => {
   }, [user, isFormOpen, reset]);
 
   const onSubmit = async (data) => {
-    console.log("USER DATA", data);
     formHandler();
     //If there's an existing user, edit the user
     if (user) {
       const updateData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
+        first_name: data.firstName,
+        last_name: data.lastName,
         email: data.email,
         role: data.role,
       };
-      const { result, error } = await updateUserByID(user.user_id, updateData);
+
+      const { result, error } = await updateUserByID(user.id, updateData);
 
       if (error) {
         toast({
@@ -119,8 +118,8 @@ const UserDialogForm = ({ isFormOpen, formHandler, user = null }) => {
     //Otherwise we are adding a user
     else {
       const newUserData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
+        first_name: data.firstName,
+        last_name: data.lastName,
         email: data.email,
         role: data.role,
       };
@@ -243,6 +242,12 @@ const UserDialogForm = ({ isFormOpen, formHandler, user = null }) => {
             </div>
 
             <DialogFooter>
+              {user?.email && (
+                <Button onClick={() => resetUserPassword(user.email)}>
+                  Reset Password
+                </Button>
+              )}
+
               <Button type="submit">Save changes</Button>
             </DialogFooter>
           </form>

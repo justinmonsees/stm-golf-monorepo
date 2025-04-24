@@ -81,7 +81,7 @@ const DonationsSection = ({ donations, items, sponsors, curEvent }) => {
         data={donations}
         openEditFunction={editButtonHandler}
         initSortCol={"sponsor"}
-        disableButtons={curEvent.is_current_event}
+        disableButtons={!curEvent.is_current_event}
       />
 
       <DonationDialogForm

@@ -41,7 +41,7 @@ const UsersSection = ({ users }) => {
       <UserDialogForm
         isFormOpen={isUserFormOpen}
         formHandler={handleUserFormOpen}
-        attendee={userEditData}
+        user={userEditData}
       />
     </div>
   );

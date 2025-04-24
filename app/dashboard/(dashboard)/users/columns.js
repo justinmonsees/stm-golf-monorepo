@@ -21,7 +21,13 @@ export const columns = [
 
   {
     accessorKey: "role",
-    header: "User Role",
+    header: "Role",
+    enableColumnFilter: false,
+    enableSorting: false,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
     enableColumnFilter: false,
     enableSorting: false,
   },
@@ -36,7 +42,9 @@ export const columns = [
             <Button
               variant="outline"
               size="icon"
-              onClick={() => table.options.meta.openEditModal(row.original)}
+              onClick={() => {
+                table.options.meta.openEditModal(row.original);
+              }}
             >
               <span className="sr-only">Edit User</span>
               <SquarePen className="h-6 w-6" />

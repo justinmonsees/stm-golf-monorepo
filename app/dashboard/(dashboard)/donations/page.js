@@ -1,7 +1,7 @@
 "use server";
 
 import React from "react";
-import { getItems } from "@/lib/actions/itemActions";
+import { getNonAttendeeItems } from "@/lib/actions/itemActions";
 import { getSponsors } from "@/lib/actions/sponsorActions";
 import { getViewingEvent } from "@/lib/actions/eventActions";
 import { getDonations } from "@/lib/actions/donationActions";
@@ -13,7 +13,7 @@ const Donations = async () => {
 
   const [donations, items, sponsors] = await Promise.all([
     getDonations(currentEvent[0].event_id),
-    getItems(),
+    getNonAttendeeItems(),
     getSponsors(),
   ]);
 

@@ -25,12 +25,11 @@ import {
 } from "@/components/ui/form";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Combobox,
+  ComboboxTrigger,
+  ComboboxValue,
+  ComboboxContent,
+} from "../ui/combobox";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "../ui/datepicker";
 import { Textarea } from "@/components/ui/textarea";
@@ -162,7 +161,7 @@ const DonationDialogForm = ({
         is_paid: isPaid,
         notes: data.notes,
       };
-      console.log("ADDING ITEM", newDonationData);
+
       const { result, error } = await addDonation(newDonationData);
 
       if (error) {
@@ -208,15 +207,16 @@ const DonationDialogForm = ({
                     control={form.control}
                     name="sponsor"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex flex-col">
                         <FormLabel>Sponsor</FormLabel>
-                        <Select
+                        <Combobox
+                          width={400}
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue
+                            <ComboboxTrigger>
+                              <ComboboxValue
                                 placeholder={
                                   donation
                                     ? sponsors.find(
@@ -227,21 +227,19 @@ const DonationDialogForm = ({
                                     : "Select a Sponsor"
                                 }
                               />
-                            </SelectTrigger>
+                            </ComboboxTrigger>
                           </FormControl>
-                          <SelectContent>
-                            {sponsors.map((sponsor) => {
-                              return (
-                                <SelectItem
-                                  key={sponsor.sponsor_id}
-                                  value={sponsor.sponsor_id}
-                                >
-                                  {sponsor.company_name}
-                                </SelectItem>
-                              );
+                          <ComboboxContent
+                            searchPlaceholder={"Search Sponsors..."}
+                            emptyPlaceholder={"No sponsors found."}
+                            items={sponsors.map((sponsor) => {
+                              return {
+                                label: sponsor.company_name,
+                                value: sponsor.sponsor_id,
+                              };
                             })}
-                          </SelectContent>
-                        </Select>
+                          />
+                        </Combobox>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -253,15 +251,16 @@ const DonationDialogForm = ({
                     control={form.control}
                     name="item"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex flex-col">
                         <FormLabel>Donation Item</FormLabel>
-                        <Select
+                        <Combobox
+                          width={400}
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue
+                            <ComboboxTrigger>
+                              <ComboboxValue
                                 placeholder={
                                   donation
                                     ? items.find(
@@ -271,21 +270,19 @@ const DonationDialogForm = ({
                                     : "Select a Donation Item"
                                 }
                               />
-                            </SelectTrigger>
+                            </ComboboxTrigger>
                           </FormControl>
-                          <SelectContent>
-                            {items.map((item) => {
-                              return (
-                                <SelectItem
-                                  key={item.item_id}
-                                  value={item.item_id}
-                                >
-                                  {item.name}
-                                </SelectItem>
-                              );
+                          <ComboboxContent
+                            searchPlaceholder={"Search Items..."}
+                            emptyPlaceholder={"No items found."}
+                            items={items.map((item) => {
+                              return {
+                                label: item.name,
+                                value: item.item_id,
+                              };
                             })}
-                          </SelectContent>
-                        </Select>
+                          />
+                        </Combobox>
                         <FormMessage />
                       </FormItem>
                     )}

@@ -26,12 +26,11 @@ import {
 } from "@/components/ui/form";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Combobox,
+  ComboboxTrigger,
+  ComboboxValue,
+  ComboboxContent,
+} from "../ui/combobox";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -44,19 +43,36 @@ import { addSponsor, updateSponsorByID } from "@/lib/actions/sponsorActions";
 import { useToast } from "../ui/use-toast";
 
 const formSchema = z.object({
-  company: z.string().min(1).nullable(),
+  company: z.string().min(1),
   businessPhoneNumber: z.string().nullable(),
-  address1: z.string().min(1).nullable(),
+  address1: z.string().nullable(),
   address2: z.string().nullable(),
-  city: z.string().min(1).nullable(),
-  state: z.string().min(2).max(2).nullable(),
-  zip: z.string().min(5).nullable(),
-  solicitor: z.string().nullable(),
+  city: z.string().nullable(),
+  state: z.string().max(2).nullable(),
+  zip: z.string().max(10).nullable(),
+  solicitor: z
+    .string()
+    .nullable()
+    .transform((value) => (value === "" ? null : value)),
   contactPrefix: z.string().nullable(),
-  contactFirstName: z.string().min(1).nullable(),
-  contactLastName: z.string().min(1).nullable(),
-  contactPhoneNumber: z.string().min(10).nullable(),
-  contactEmail: z.string().email().nullable(),
+  contactFirstName: z.string().nullable(),
+  contactLastName: z.string().nullable(),
+  contactPhoneNumber: z.string().nullable(),
+  contactEmail: z
+    .string()
+    .optional() // Make the field optional
+    .refine(
+      (value) => {
+        if (!value) {
+          return true; // If empty, it's valid
+        }
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(value); // Validate if not empty
+      },
+      {
+        message: "Invalid email format",
+      }
+    ),
 });
 
 const SponsorDialogForm = ({
@@ -247,36 +263,35 @@ const SponsorDialogForm = ({
                       control={form.control}
                       name="solicitor"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="flex flex-col">
                           <FormLabel>Solicitor</FormLabel>
-                          <Select
+                          <Combobox
+                            width={400}
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
-                                <SelectValue
+                              <ComboboxTrigger>
+                                <ComboboxValue
                                   placeholder={
                                     sponsor?.committee_members
                                       ? `${sponsor.committee_members.first_name} ${sponsor.committee_members.last_name}`
                                       : "Please select a committee member"
                                   }
                                 />
-                              </SelectTrigger>
+                              </ComboboxTrigger>
                             </FormControl>
-                            <SelectContent>
-                              {committeeMembers.map((member) => {
-                                return (
-                                  <SelectItem
-                                    key={member.committee_member_id}
-                                    value={member.committee_member_id}
-                                  >
-                                    {`${member.first_name} ${member.last_name}`}
-                                  </SelectItem>
-                                );
+                            <ComboboxContent
+                              searchPlaceholder={"Search Members..."}
+                              emptyPlaceholder={"No members found."}
+                              items={committeeMembers.map((member) => {
+                                return {
+                                  label: `${member.first_name} ${member.last_name}`,
+                                  value: member.committee_member_id,
+                                };
                               })}
-                            </SelectContent>
-                          </Select>
+                            />
+                          </Combobox>
                           <FormMessage />
                         </FormItem>
                       )}

@@ -35,6 +35,11 @@ export async function getPastSponsors() {
   //Sort the array of objects by donation cost from greatest to least
   sponsorsByDonationType.sort((a, b) => b.cost - a.cost);
 
+  //Sort the arrays of sponsors for each donation type
+  sponsorsByDonationType.forEach((category) => {
+    category.sponsors.sort();
+  });
+
   return sponsorsByDonationType;
 }
 
@@ -59,8 +64,8 @@ const Sponsors = async () => {
                 <CardHeader>
                   <CardTitle className="text-center">{item.name}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <ul className="md:columns-2 text-md">
+                <CardContent className="flex w-auto justify-center">
+                  <ul className="columns-2 w-[700px]">
                     {item.sponsors.map((sponsor, sponIndex) => {
                       return <li key={sponIndex}>{sponsor}</li>;
                     })}
