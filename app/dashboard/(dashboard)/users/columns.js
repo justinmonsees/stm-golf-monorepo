@@ -43,7 +43,7 @@ export const columns = [
               variant="outline"
               size="icon"
               onClick={() => {
-                table.options.meta.openEditModal(row.original);
+                table.options.meta.openEditModal(user);
               }}
             >
               <span className="sr-only">Edit User</span>
@@ -53,7 +53,7 @@ export const columns = [
               variant="outline"
               size="icon"
               onClick={() => {
-                deleteUserByID(user.user_id);
+                deleteUserByID(user.id);
                 table.options.meta.refreshRoute();
               }}
             >

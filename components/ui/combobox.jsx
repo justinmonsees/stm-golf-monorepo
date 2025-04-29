@@ -40,12 +40,13 @@ const Combobox = ({
     setDisplayValue,
     onValueChange,
     width,
+    isOpen,
     toggleIsOpen,
   };
 
   return (
     <ComboboxContext.Provider value={contextValue}>
-      <Popover modal={true} open={isOpen}>
+      <Popover modal={true} open={isOpen} onOpenChange={setIsOpen}>
         {children}
       </Popover>
     </ComboboxContext.Provider>
@@ -84,7 +85,7 @@ const ComboboxValue = ({ placeholder }) => {
 };
 
 const ComboboxContent = ({ searchPlaceholder, emptyPlaceholder, items }) => {
-  const { width, setDisplayValue, onValueChange, toggleIsOpen } =
+  const { width, setDisplayValue, onValueChange, isOpen, toggleIsOpen } =
     useComboboxContext();
   const [query, setQuery] = useState("");
   const [filteredItems, setFilteredItems] = useState(items);
@@ -101,7 +102,15 @@ const ComboboxContent = ({ searchPlaceholder, emptyPlaceholder, items }) => {
   };
 
   return (
-    <PopoverContent className={`p-0 w-[--radix-popover-trigger-width]`}>
+    <PopoverContent
+      className={`p-0 w-[--radix-popover-trigger-width]`}
+      onEscapeKeyDown={(event) => {
+        if (isOpen) {
+          toggleIsOpen();
+          event.stopPropagation();
+        }
+      }}
+    >
       <Command shouldFilter={false}>
         <CommandInput
           placeholder={searchPlaceholder}

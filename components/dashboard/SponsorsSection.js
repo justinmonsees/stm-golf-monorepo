@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { columns } from "@/app/dashboard/(dashboard)/sponsors/columns";
 import { DataTable } from "@/components/ui/data-table";
 import SponsorDialogForm from "./SponsorDialogForm";
 import { Button } from "../ui/button";
-import { getSponsorsByCommitteeMember } from "@/lib/actions/sponsorActions";
 import { createSponsorReport } from "@/lib/reports/sponsorReport";
 import { exportSponsorsCSV } from "@/lib/csv/sponsorCSV";
 
@@ -46,7 +45,6 @@ const SponsorsSection = ({ sponsors, committeeMembers, eventInfo }) => {
     exportSponsorsCSV(sponsors, "Sponsors");
   };
 
-  //console.log(items);
   return (
     <div className="w-full pb-10 px-10">
       <div className="py-10 flex justify-between">

@@ -7,11 +7,11 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
