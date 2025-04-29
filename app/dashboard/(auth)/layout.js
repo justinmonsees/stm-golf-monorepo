@@ -16,10 +16,12 @@ export default async function AuthLayout({ children }) {
       </div>
       <div id="login-image" className=" w-1/2 h-screen relative ">
         <Image
-          src="/golfer-sand.jpg"
-          alt={"Golfer hitting a golf ball in a sandtrap"}
-          fill={true}
-          objectFit="cover"
+          src={"/golfer-sand.jpg"}
+          fill
+          style={{ objectFit: "cover" }}
+          alt="golfer in sandtrap"
+          sizes="50vw"
+          priority
         />
       </div>
     </div>
