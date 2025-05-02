@@ -39,6 +39,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { addDonation, updateDonationByID } from "@/lib/actions/donationActions";
 import { useToast } from "../ui/use-toast";
+import { convertToLocalDate } from "@/lib/helpers";
 
 const formSchema = z.object({
   sponsor: z.string(),
@@ -100,7 +101,7 @@ const DonationDialogForm = ({
         sponsor: donation.sponsor_id,
         item: donation.item_id,
         amountReceived: donation.amount_received,
-        datePaid: donation.date_paid,
+        datePaid: convertToLocalDate(new Date(donation.date_paid)),
         notes: donation.notes,
       });
     } else {
@@ -131,6 +132,7 @@ const DonationDialogForm = ({
         is_paid: isPaid,
         notes: data.notes,
       };
+
       const { result, error } = await updateDonationByID(
         donation.donation_id,
         updateData

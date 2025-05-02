@@ -21,7 +21,6 @@ export default async function AuthLayout({ children }) {
           style={{ objectFit: "cover" }}
           alt="golfer in sandtrap"
           sizes="50vw"
-          priority
         />
       </div>
     </div>

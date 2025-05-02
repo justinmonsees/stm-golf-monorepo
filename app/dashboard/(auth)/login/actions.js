@@ -1,14 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-
 import { getUserByID } from "@/lib/actions/userActions";
 
 import { createClient } from "@/utils/supabase/server";
 
 export async function login(email, password) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const formInfo = {
     email: email,
@@ -17,13 +14,14 @@ export async function login(email, password) {
 
   try {
     const { data, error } = await supabase.auth.signInWithPassword(formInfo);
-    console.log("LOGIN MESSAGE: ", error);
 
     if (error) {
       throw new Error(error.message);
     }
 
-    const userProfile = await getUserByID(data.user.id);
+    const { data: userObj, error: userError } = await supabase.auth.getUser();
+
+    const userProfile = await getUserByID(userObj.user.id);
 
     if (userProfile) {
       return { data: userProfile, error: null };

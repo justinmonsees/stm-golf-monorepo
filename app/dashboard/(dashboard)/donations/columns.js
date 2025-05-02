@@ -43,7 +43,7 @@ export const columns = [
   {
     id: "actions",
     cell: ({ row, table }) => {
-      const item = row.original;
+      const donation = row.original;
 
       return (
         <>

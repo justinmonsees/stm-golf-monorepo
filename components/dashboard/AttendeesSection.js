@@ -82,7 +82,7 @@ const AttendeesSection = ({ attendees, curEvent }) => {
         data={attendees}
         openEditFunction={editButtonHandler}
         initSortCol={"fullName"}
-        disableButtons={curEvent.is_current_event}
+        disableButtons={!curEvent.is_current_event}
       />
 
       <AttendeeDialogForm

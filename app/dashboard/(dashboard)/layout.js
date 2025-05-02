@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Suspense } from "react";
 
 export default async function DashboardLayout({ children }) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const viewingEvent = await getViewingEvent();
 

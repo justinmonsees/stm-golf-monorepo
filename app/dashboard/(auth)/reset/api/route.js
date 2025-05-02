@@ -10,7 +10,7 @@ export async function GET(request) {
   const next = searchParams.get("next") ?? "/";
 
   if (token_hash && type) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user, session },
@@ -36,7 +36,7 @@ export async function GET(request) {
   }
 
   // redirect the user to an error page with some instructions
-  console.log(error.message);
+  //console.log(error.message);
 
   redirect("/error");
 }

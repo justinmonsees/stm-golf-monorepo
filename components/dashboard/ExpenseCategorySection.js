@@ -26,7 +26,6 @@ const ExpenseCategoriesSection = ({ expenseCategories }) => {
     setExpenseCategoryFormOpen((prevVal) => !prevVal);
   };
 
-  //console.log(items);
   return (
     <div className="w-full pb-10 px-10">
       <div className=" py-10 flex justify-between">
@@ -43,7 +42,7 @@ const ExpenseCategoriesSection = ({ expenseCategories }) => {
       <ExpenseCategoryDialogForm
         isFormOpen={isExpenseCategoryFormOpen}
         formHandler={handleExpenseCategoryFormOpen}
-        expenseCategories={expenseCategoryEditData}
+        expenseCategory={expenseCategoryEditData}
       />
     </div>
   );

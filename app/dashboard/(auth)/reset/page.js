@@ -6,10 +6,10 @@ import { redirect } from "next/navigation";
 import { getUserByID } from "@/lib/actions/userActions";
 
 export default async function Reset() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
-    data: { user },
+    data: { userObj },
     error,
   } = await supabase.auth.getUser();
 
@@ -17,7 +17,7 @@ export default async function Reset() {
     redirect("/login");
   }
 
-  const userProfile = await getUserByID(user.id);
+  const userProfile = await getUserByID(userObj.user.id);
 
   const isDefaultPassword = userProfile.needs_reset;
 

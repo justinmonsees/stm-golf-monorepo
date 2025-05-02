@@ -104,7 +104,7 @@ const ExpenseCategoryDialogForm = ({
       const newExpenseCategoryData = {
         name: data.expenseCategoryName,
       };
-      //console.log("ADDING EXPENSE CATEGORY", newItemData);
+
       const { result, error } = await addExpenseCategory(
         newExpenseCategoryData
       );

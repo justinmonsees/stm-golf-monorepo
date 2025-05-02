@@ -82,7 +82,7 @@ const ExpensesSection = ({ expenses, expenseCategories, curEvent }) => {
         data={expenses}
         openEditFunction={editButtonHandler}
         initSortCol={"name"}
-        disableButtons={curEvent.is_current_event}
+        disableButtons={!curEvent.is_current_event}
       />
 
       <ExpenseDialogForm
