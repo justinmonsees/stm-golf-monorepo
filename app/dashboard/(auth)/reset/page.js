@@ -13,7 +13,7 @@ export default async function Reset() {
     error,
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!userObj) {
     redirect("/login");
   }
 
