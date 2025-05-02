@@ -9,15 +9,15 @@ export default async function Reset() {
   const supabase = await createClient();
 
   const {
-    data: { userObj },
+    data: { user },
     error,
   } = await supabase.auth.getUser();
 
-  if (!userObj) {
+  if (!user) {
     redirect("/login");
   }
 
-  const userProfile = await getUserByID(userObj.user.id);
+  const userProfile = await getUserByID(user.id);
 
   const isDefaultPassword = userProfile.needs_reset;
 

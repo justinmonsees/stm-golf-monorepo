@@ -19,9 +19,12 @@ export async function login(email, password) {
       throw new Error(error.message);
     }
 
-    const { data: userObj, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-    const userProfile = await getUserByID(userObj.user.id);
+    const userProfile = await getUserByID(user.id);
 
     if (userProfile) {
       return { data: userProfile, error: null };
