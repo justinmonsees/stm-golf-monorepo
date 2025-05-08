@@ -9,6 +9,10 @@ export async function GET(request) {
   const type = searchParams.get("type");
   const next = searchParams.get("next") ?? "/";
 
+  console.log("TOKEN HASH", token_hash);
+  console.log("TYPE:", type);
+  console.log("NEXT", next);
+
   if (token_hash && type) {
     const supabase = await createClient();
 
@@ -19,6 +23,8 @@ export async function GET(request) {
       type,
       token_hash,
     });
+
+    console.log("SESSION", session);
 
     //first refresh the session
     const {
@@ -39,8 +45,4 @@ export async function GET(request) {
   //console.log(error.message);
 
   redirect("/error");
-}
-
-export async function POST(request) {
-  console.log("RESET POST REQUEST");
 }
