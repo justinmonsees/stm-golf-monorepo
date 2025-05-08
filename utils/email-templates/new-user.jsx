@@ -24,13 +24,15 @@ export const newUserEmail = ({ newPassword }) => (
         </Heading>
         <Section style={codeContainer}>
           <Text style={code}>{newPassword}</Text>
-          <Button style={button}>Log Into Dashboard</Button>
         </Section>
+        <Button style={button} href={"https://dashboard.stmgolf.org"}>
+          Log Into Dashboard
+        </Button>
         <Text style={paragraph}>Not expecting this email?</Text>
         <Text style={paragraph}>
           Contact{" "}
-          <Link href="mailto:justinmonsees@gmail.com" style={link}>
-            Justin Monsees
+          <Link href="mailto:hello@stmgolf.org" style={link}>
+            hello@stmgolf.org
           </Link>{" "}
           if you did not request this code.
         </Text>
@@ -52,9 +54,9 @@ const container = {
   borderRadius: "5px",
   boxShadow: "0 5px 10px rgba(20,50,70,.2)",
   marginTop: "20px",
-  maxWidth: "360px",
+  maxWidth: "600px",
   margin: "0 auto",
-  padding: "68px 0 130px",
+  padding: "40px",
 };
 
 const button = {

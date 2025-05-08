@@ -40,3 +40,7 @@ export async function GET(request) {
 
   redirect("/error");
 }
+
+export async function POST(request) {
+  console.log("RESET POST REQUEST");
+}

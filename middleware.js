@@ -1,5 +1,5 @@
 import { updateSession } from "@/utils/supabase/middleware";
-import { notFound } from "next/navigation";
+
 import { NextResponse } from "next/server";
 
 export const config = {

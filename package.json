@@ -42,6 +42,7 @@
     "react-uuid": "^2.0.0",
     "recharts": "^2.12.7",
     "resend": "^4.0.0",
+    "standardwebhooks": "^1.0.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-fluid-type": "^2.0.6",
