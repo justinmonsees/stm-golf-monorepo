@@ -21,12 +21,7 @@ export async function POST(request) {
   try {
     const { user, email_data } = wh.verify(payload, headers);
 
-    console.log("USER INFO", user);
-    console.log("EMAIL INFO", email_data);
-
     const type = email_data.email_action_type;
-
-    console.log("TYPE: ", type);
 
     if (type.toLowerCase() === "recovery") {
       const email = user.email;

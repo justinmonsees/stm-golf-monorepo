@@ -85,7 +85,6 @@ export function ForgotPasswordForm() {
     if (error) {
       form.setError("verificationCode", { type: "custom", message: error });
     } else {
-      console.log("pushing to reset");
       router.push("/reset");
     }
   };
