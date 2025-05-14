@@ -1,6 +1,5 @@
 "use server";
 
-import { NextResponse } from "next/server";
 import { Webhook } from "standardwebhooks";
 import resetLinkEmail from "@/utils/email-templates/reset-password";
 import { Resend } from "resend";
@@ -13,38 +12,50 @@ const SEND_EMAIL_HOOK_SECRET = process.env.SEND_EMAIL_HOOK_SECRET.replace(
 export async function POST(request) {
   const wh = new Webhook(SEND_EMAIL_HOOK_SECRET);
 
-  const headers = await Object.fromEntries(request.headers);
+  const headers = Object.fromEntries(request.headers);
   const payload = await request.text();
+
+  const responseHeaders = new Headers();
+  responseHeaders.set("Content-Type", "application/json");
 
   try {
     const { user, email_data } = wh.verify(payload, headers);
 
+    console.log("USER INFO", user);
+    console.log("EMAIL INFO", email_data);
+
     const type = email_data.email_action_type;
+
+    console.log("TYPE: ", type);
 
     if (type.toLowerCase() === "recovery") {
       const email = user.email;
-      const token_hash = email_data.token_hash;
+      const token = email_data.token;
       const resend = new Resend(process.env.RESEND_API_KEY);
-      const next = process.env.BASE_URL;
 
       const { data: emailData, error: emailError } = await resend.emails.send({
         from: `STM Golf Event <${process.env.SEND_FROM_EMAIL}>`,
         to: [email],
         subject: "STM Golf Dashboard: Reset Password",
-        react: resetLinkEmail(token_hash, next),
+        react: resetLinkEmail(token),
       });
 
       if (emailError && Object.keys(emailError).length >= 1) {
         throw new Error(emailError.message);
       }
 
-      return new NextResponse({ status: 200 });
+      return new Response(JSON.stringify({}), {
+        status: 200,
+        headers: responseHeaders,
+      });
+    } else {
+      throw new Error("Invalid OTP Type");
     }
   } catch (error) {
     console.error(error); // Log the error for debugging
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({}), {
+      status: 500,
+      headers: responseHeaders,
+    });
   }
 }

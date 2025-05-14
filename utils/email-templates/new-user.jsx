@@ -1,124 +1,142 @@
+"use server";
+
 import {
   Body,
   Button,
   Container,
   Head,
   Heading,
+  Hr,
   Html,
   Img,
-  Link,
   Section,
   Text,
+  Preview,
+  Row,
+  Column,
 } from "@react-email/components";
 import * as React from "react";
 
-export const newUserEmail = ({ newPassword }) => (
-  <Html>
-    <Head />
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={secondary}>
-          An account for the St. Thomas More Golf Outing app has been created
-          for you. Please log into the dashboard with the temporary password
-          below to create your new password.
-        </Heading>
-        <Section style={codeContainer}>
-          <Text style={code}>{newPassword}</Text>
-        </Section>
-        <Button style={button} href={"https://dashboard.stmgolf.org"}>
-          Log Into Dashboard
-        </Button>
-        <Text style={paragraph}>Not expecting this email?</Text>
-        <Text style={paragraph}>
-          Contact{" "}
-          <Link href="mailto:hello@stmgolf.org" style={link}>
-            hello@stmgolf.org
-          </Link>{" "}
-          if you did not request this code.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-);
+export const newUserEmail = ({ newPassword }) => {
+  return (
+    <Html>
+      <Head />
+      <Body style={main}>
+        <Preview>STM Golf Dashboard New User Account</Preview>
+        <Container style={container}>
+          <Section style={coverSection}>
+            <Row style={imageSection}>
+              <Column align="center">
+                <Img
+                  src={`https://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/email-header.png`}
+                  width="150"
+                  height="45"
+                  alt="STM Golf Logo"
+                />
+              </Column>
+            </Row>
+            <Section style={upperSection}>
+              <Heading style={h1}>New User Account</Heading>
+              <Text style={mainText}>
+                {" "}
+                An account for the St. Thomas More Golf Outing app has been
+                created for you. Please log into the dashboard with the
+                temporary password below to create your new password.
+              </Text>
+              <Section>
+                <Text style={verifyText}>Temporary Password</Text>
+
+                <Text style={codeText}>{newPassword}</Text>
+              </Section>
+            </Section>
+          </Section>
+          <Text style={footerText}>©2025 Justin Monsees</Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+};
 
 export default newUserEmail;
 
 const main = {
-  backgroundColor: "#ffffff",
-  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
+  backgroundColor: "#fff",
+  color: "#212121",
 };
 
 const container = {
-  backgroundColor: "#ffffff",
-  border: "1px solid #eee",
-  borderRadius: "5px",
-  boxShadow: "0 5px 10px rgba(20,50,70,.2)",
-  marginTop: "20px",
-  maxWidth: "600px",
+  padding: "20px",
   margin: "0 auto",
-  padding: "40px",
+  backgroundColor: "#eee",
+};
+
+const h1 = {
+  color: "#333",
+  fontFamily:
+    "'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+  fontSize: "30px",
+  fontWeight: "bold",
+  textAlign: "center",
+  marginBottom: "15px",
 };
 
 const button = {
   fontSize: "14px",
-  backgroundColor: "#28a745",
+  backgroundColor: "#560505",
   color: "#fff",
   lineHeight: 1.5,
   borderRadius: "0.5em",
   padding: "12px 24px",
 };
 
-const logo = {
-  margin: "0 auto",
-};
-
-const secondary = {
-  color: "#000",
-  display: "inline-block",
-  fontFamily: "HelveticaNeue-Medium,Helvetica,Arial,sans-serif",
-  fontSize: "20px",
-  fontWeight: 500,
-  lineHeight: "24px",
-  marginBottom: "0",
-  marginTop: "0",
+const text = {
+  color: "#333",
+  fontFamily:
+    "'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+  fontSize: "14px",
+  margin: "24px 0",
   textAlign: "center",
 };
 
-const codeContainer = {
-  background: "rgba(0,0,0,.05)",
-  borderRadius: "4px",
-  margin: "16px auto 14px",
-  verticalAlign: "middle",
-  width: "280px",
+const imageSection = {
+  backgroundColor: "#560505",
+
+  padding: "20px 5px",
 };
 
-const code = {
-  color: "#000",
-  display: "inline-block",
-  fontFamily: "HelveticaNeue-Bold",
-  fontSize: "32px",
-  fontWeight: 700,
-  letterSpacing: "6px",
-  lineHeight: "40px",
-  paddingBottom: "8px",
-  paddingTop: "8px",
-  margin: "0 auto",
-  width: "100%",
+const coverSection = { backgroundColor: "#fff" };
+
+const upperSection = { padding: "25px 35px" };
+
+const lowerSection = { padding: "25px 35px" };
+
+const footerText = {
+  ...text,
+  fontSize: "12px",
+  padding: "0 20px",
+};
+
+const verifyText = {
+  ...text,
+  margin: 0,
+  fontWeight: "bold",
   textAlign: "center",
 };
-
-const paragraph = {
-  color: "#444",
-  fontSize: "15px",
-  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
-  letterSpacing: "0",
-  lineHeight: "23px",
-  padding: "0 40px",
-  margin: "0",
+const codeText = {
+  ...text,
+  fontWeight: "bold",
+  fontSize: "36px",
+  margin: "10px 0",
+  textAlign: "center",
+  letterSpacing: "10px",
+};
+const validityText = {
+  ...text,
+  margin: "0px",
   textAlign: "center",
 };
+const resetButtonSection = {};
 
-const link = {
-  color: "#444",
-  textDecoration: "underline",
-};
+const mainText = { ...text, marginBottom: "14px" };
+
+const cautionText = { ...text, margin: "0px" };

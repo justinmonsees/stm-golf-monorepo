@@ -17,9 +17,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-export const resetLinkEmail = async (token_hash, next) => {
-  const reset_link = `${process.env.BASE_URL}/reset/api?token_hash=${token_hash}&type=recovery&next=${next}/reset`;
-
+export const resetLinkEmail = async (token) => {
   return (
     <Html>
       <Head />
@@ -31,29 +29,24 @@ export const resetLinkEmail = async (token_hash, next) => {
               <Column align="center">
                 <Img
                   src={`https://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/email-header.png`}
-                  width="75"
+                  width="150"
                   height="45"
                   alt="STM Golf Logo"
                 />
               </Column>
             </Row>
             <Section style={upperSection}>
-              <Heading style={h1}>Password Reset</Heading>
-              <Text style={mainText}>
-                If you&apos;ve lost your password or wish to reset it,
-                <br />
-                use the link below to get started.
-              </Text>
-              <Row style={resetButtonSection}>
-                <Column align="center">
-                  <Button style={button} href={reset_link}>
-                    Reset Password
-                  </Button>
-                  <Text style={validityText}>
-                    (This code is valid for 1 hour)
-                  </Text>
-                </Column>
-              </Row>
+              <Heading style={h1}>Email OTP</Heading>
+              <Text style={mainText}>Your One-Time Password(OTP) is:</Text>
+              <Section>
+                <Text style={verifyText}>Verification code</Text>
+
+                <Text style={codeText}>{token}</Text>
+
+                <Text style={validityText}>
+                  (This code is valid for 1 hour)
+                </Text>
+              </Section>
             </Section>
             <Hr />
             <Section style={lowerSection}>
@@ -130,12 +123,25 @@ const footerText = {
   padding: "0 20px",
 };
 
-const validityText = {
+const verifyText = {
   ...text,
-  margin: "15px 0 0 0",
+  margin: 0,
+  fontWeight: "bold",
   textAlign: "center",
 };
-
+const codeText = {
+  ...text,
+  fontWeight: "bold",
+  fontSize: "36px",
+  margin: "10px 0",
+  textAlign: "center",
+  letterSpacing: "10px",
+};
+const validityText = {
+  ...text,
+  margin: "0px",
+  textAlign: "center",
+};
 const resetButtonSection = {};
 
 const mainText = { ...text, marginBottom: "14px" };
