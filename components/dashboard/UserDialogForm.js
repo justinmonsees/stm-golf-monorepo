@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { resetUserPassword } from "@/lib/actions/userActions";
-
+import { resetUserPassword } from "@/lib/actions/authenticationActions";
 import {
   Dialog,
   DialogContent,

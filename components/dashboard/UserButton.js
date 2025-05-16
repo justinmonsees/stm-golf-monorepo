@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-import { logout } from "@/app/dashboard/(dashboard)/actions";
+import { logout } from "@/lib/actions/authenticationActions";
 
 import React from "react";
 import Link from "next/link";

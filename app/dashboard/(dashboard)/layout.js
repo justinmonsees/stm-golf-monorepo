@@ -12,8 +12,6 @@ import { Suspense } from "react";
 export default async function DashboardLayout({ children }) {
   const supabase = await createClient();
 
-  const viewingEvent = await getViewingEvent();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -21,6 +19,8 @@ export default async function DashboardLayout({ children }) {
   if (!user) {
     redirect("login");
   }
+
+  const viewingEvent = await getViewingEvent();
 
   const { data: profile, error: profile_error } = await supabase
     .from("Profiles")

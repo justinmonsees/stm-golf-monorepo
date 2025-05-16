@@ -19,7 +19,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { updatePassword, updateUserByID } from "@/lib/actions/userActions";
+import { updateUserByID } from "@/lib/actions/userActions";
+import { updatePassword } from "@/lib/actions/authenticationActions";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

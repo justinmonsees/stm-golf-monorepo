@@ -26,8 +26,10 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { resetUserPassword, verifyEmailOTP } from "@/lib/actions/userActions";
-
+import {
+  resetUserPassword,
+  verifyEmailOTP,
+} from "@/lib/actions/authenticationActions";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

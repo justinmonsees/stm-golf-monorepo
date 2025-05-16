@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { login } from "@/app/dashboard/(auth)/login/actions";
+import { login } from "@/lib/actions/authenticationActions";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
