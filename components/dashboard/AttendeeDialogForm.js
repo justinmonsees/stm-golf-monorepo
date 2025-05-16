@@ -47,13 +47,13 @@ const formSchema = z.object({
   attendeeType: z.string(),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
-  phoneNumber: z.string().min(10),
+  phoneNumber: z.string().max(12),
   email: z.string().email(),
-  address1: z.string().min(1),
+  address1: z.string(),
   address2: z.string(),
-  city: z.string().min(1),
-  state: z.string().min(2),
-  zip: z.string().min(5),
+  city: z.string(),
+  state: z.string().max(2),
+  zip: z.string().max(10),
   datePaid: z.date().nullable(),
 });
 
