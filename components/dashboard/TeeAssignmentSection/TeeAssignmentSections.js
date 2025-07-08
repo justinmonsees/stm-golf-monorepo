@@ -31,10 +31,7 @@ import {
 } from "../../ui/select";
 import { Label } from "../../ui/label";
 
-import {
-  bulkUpdateAttendees,
-  updateAttendeeByID,
-} from "@/lib/actions/attendeeActions";
+import { bulkUpdateAttendees } from "@/lib/actions/attendeeActions";
 import { bulkUpdateGolfTeeGroups } from "@/lib/actions/golfTeeGroupActions";
 import { useToast } from "../../ui/use-toast";
 import { X } from "lucide-react";
@@ -51,7 +48,6 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import { Grip, Link, Unlink } from "lucide-react";
-import { Switch } from "../../ui/switch";
 import { rearrangeHoles } from "@/lib/helpers";
 
 const Droppable = dynamic(() => import("../Droppable"), { ssr: false });
@@ -256,7 +252,6 @@ const TeeAssignmentSection = ({
     } else {
       return holeGroups;
     }
-    holeNumber === 1 && console.log("HOLE GROUP 1 RESULT", holeGroups);
   };
 
   const assignGolfers = () => {
@@ -445,6 +440,7 @@ const TeeAssignmentSection = ({
   // --- onDragEnd handler ---
   const handleDragEnd = async (event) => {
     const { active, over } = event;
+
     const type = event.active.data.current?.type;
     if (!over) {
       setActiveId(null);
@@ -457,6 +453,11 @@ const TeeAssignmentSection = ({
     if (type === "ATTENDEE") {
       const draggedAttendees = event.active.data.current?.data;
       const droppedGroup = over.id;
+
+      //check first to make sure the dragged group wasn't dropped into it's original group
+      if (droppedGroup === draggedAttendees[0].golf_tee_group_id) {
+        return;
+      }
 
       moveGolfers(draggedAttendees, droppedGroup);
     } else if (type === "HOLE") {
