@@ -4,7 +4,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { columns } from "@/app/dashboard/(dashboard)/attendees/columns";
 import { DataTable } from "@/components/ui/data-table";
-import AttendeeDialogForm from "./AttendeeDialogForm";
+import EditAttendeeDialog from "./EditAttendeeDialog";
+import AddAttendeesDialog from "./AddAttendeesForm/AddAttendeesDialog";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -15,26 +16,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { useAttendeeContext } from "@/lib/context/attendeesContext";
 import { createAttendeeReport } from "@/lib/reports/attendeeReport";
 import { exportAttendeesCSV } from "@/lib/csv/attendeeCSV";
 
-const AttendeesSection = ({ attendees, curEvent }) => {
+const AttendeesSection = () => {
   const [attendeeEditData, setEditAttendeeData] = useState(null);
-  const [isAttendeeFormOpen, setAttendeeFormOpen] = useState(false);
+  const [isAddAttendeeFormOpen, setAddAttendeeFormOpen] = useState(false);
+  const [isEditAttendeeFormOpen, setEditAttendeeFormOpen] = useState(false);
+
+  const { attendees, currentEvent: curEvent } = useAttendeeContext();
 
   const editButtonHandler = (rowData) => {
     setEditAttendeeData(rowData);
-    handleAttendeeFormOpen();
+    handleEditAttendeeFormOpen();
   };
 
   const addButtonHandler = () => {
-    setEditAttendeeData(null);
-    handleAttendeeFormOpen();
+    handleAddAttendeeFormOpen();
   };
 
-  const handleAttendeeFormOpen = () => {
-    setAttendeeFormOpen((prevVal) => !prevVal);
+  const handleAddAttendeeFormOpen = () => {
+    setAddAttendeeFormOpen((prevVal) => !prevVal);
+  };
+
+  const handleEditAttendeeFormOpen = () => {
+    setEditAttendeeFormOpen((prevVal) => !prevVal);
   };
   const generatePDF = async () => {
     createAttendeeReport(attendees, curEvent);
@@ -85,10 +92,14 @@ const AttendeesSection = ({ attendees, curEvent }) => {
         disableButtons={!curEvent.is_current_event}
       />
 
-      <AttendeeDialogForm
-        isFormOpen={isAttendeeFormOpen}
-        formHandler={handleAttendeeFormOpen}
+      <EditAttendeeDialog
+        isFormOpen={isEditAttendeeFormOpen}
+        formHandler={handleEditAttendeeFormOpen}
         attendee={attendeeEditData}
+      />
+      <AddAttendeesDialog
+        isFormOpen={isAddAttendeeFormOpen}
+        formHandler={handleAddAttendeeFormOpen}
       />
     </div>
   );

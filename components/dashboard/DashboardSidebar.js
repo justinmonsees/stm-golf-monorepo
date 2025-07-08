@@ -15,6 +15,7 @@ import {
   Gift,
   DollarSign,
   ArrowLeftToLine,
+  FlagTriangleRight,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -44,6 +45,11 @@ const links = [
     label: "Attendees",
     path: "/attendees",
     icon: Users,
+  },
+  {
+    label: "Tee Assignments",
+    path: "/tee-assignments",
+    icon: FlagTriangleRight,
   },
   {
     label: "Sponsors",

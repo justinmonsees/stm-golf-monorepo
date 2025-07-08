@@ -47,7 +47,7 @@ const DashboardSection = ({ stats }) => {
     <div id="dashboard-wrapper" className="p-8">
       <div
         id="stat-cards"
-        className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4 mb-5"
+        className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 mb-5"
       >
         <DashboardStatCard
           title="Total Revenue"
@@ -71,7 +71,7 @@ const DashboardSection = ({ stats }) => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
             <CardTitle>Attendees</CardTitle>
