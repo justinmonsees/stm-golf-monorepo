@@ -188,7 +188,7 @@ const DonationDialogForm = ({
       open={isFormOpen}
       defaultOpen={isFormOpen}
     >
-      <DialogContent className="sm:max-w-[550px]">
+      <DialogContent className="sm:max-w-[550px] max-h-[90%] overflow-y-auto">
         <DialogDescription className="sr-only">
           Dialog Form to Add or Edit a Donation
         </DialogDescription>

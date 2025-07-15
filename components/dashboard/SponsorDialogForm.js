@@ -242,7 +242,7 @@ const SponsorDialogForm = ({
       open={isFormOpen}
       defaultOpen={isFormOpen}
     >
-      <DialogContent className="sm:max-w-[550px]">
+      <DialogContent className="sm:max-w-[550px] max-h-[90%] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-4xl pb-5">
             {sponsor ? "Edit Sponsor" : "Add Sponsor"}

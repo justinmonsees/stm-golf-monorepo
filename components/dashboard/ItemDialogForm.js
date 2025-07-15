@@ -156,7 +156,7 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
       open={isFormOpen}
       defaultOpen={isFormOpen}
     >
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90%] overflow-y-auto">
         <DialogDescription className="sr-only">
           Dialog Form to Add or Edit an Item
         </DialogDescription>

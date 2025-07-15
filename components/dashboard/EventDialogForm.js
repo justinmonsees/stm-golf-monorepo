@@ -30,12 +30,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@/utils/supabase/client";
-import { format } from "date-fns";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addEvent, updateEventByID } from "@/lib/actions/eventActions";
-import { AlertTriangle, Scroll } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 import {
   Dialog,
   DialogContent,
@@ -46,7 +45,6 @@ import {
 } from "@/components/ui/dialog";
 import { Spinner } from "../ui/spinner";
 import { Switch } from "../ui/switch";
-import { ScrollArea } from "../ui/scroll-area";
 
 const formSchema = z.object({
   eventDate: z.date(),
@@ -265,7 +263,7 @@ const EventDialogForm = ({
       open={isFormOpen}
       defaultOpen={isFormOpen}
     >
-      <DialogContent className="sm:max-w-[80%] max-h-[90%] overflow-y-scroll">
+      <DialogContent className="sm:max-w-[80%] max-h-[90%] overflow-y-auto">
         <DialogHeader className="mb-2">
           <DialogTitle>{event ? "Edit Event" : "Add Event"}</DialogTitle>
           <DialogDescription className="sr-only">
