@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+import { Switch } from "@/components/ui/switch";
 import {
   Form,
   FormControl,
@@ -37,6 +37,7 @@ const formSchema = z.object({
   itemCost: z.coerce.number(),
   itemType: z.string().min(1),
   itemImage: z.string(),
+  isItemPublic: z.boolean(),
 });
 
 const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
@@ -86,6 +87,7 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
         itemCost: item.cost,
         itemType: item.item_type,
         itemImage: itemImage,
+        isItemPublic: item.is_public,
       });
     } else {
       reset({
@@ -93,6 +95,7 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
         itemCost: "",
         itemType: "",
         itemImage: "",
+        isItemPublic: false,
       });
     }
   }, [item, isFormOpen, reset]);
@@ -106,6 +109,7 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
         cost: data.itemCost,
         item_type: data.itemType,
         item_image: data.itemImage,
+        is_public: data.isItemPublic,
       };
       const { result, error } = await updateItemByID(item.item_id, updateData);
 
@@ -130,8 +134,9 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
         cost: data.itemCost,
         item_type: data.itemType,
         item_image: data.itemImage,
+        is_public: data.isItemPublic,
       };
-      console.log("ADDING ITEM", newItemData);
+
       const { result, error } = await addItem(newItemData);
 
       if (error) {
@@ -211,6 +216,24 @@ const ItemDialogForm = ({ isFormOpen, formHandler, item = null }) => {
                           <Input {...field} />
                         </FormControl>
                         <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid grid-cols-1">
+                  <FormField
+                    control={form.control}
+                    name="isItemPublic"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <FormLabel>Add to public site?</FormLabel>
+
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
                       </FormItem>
                     )}
                   />

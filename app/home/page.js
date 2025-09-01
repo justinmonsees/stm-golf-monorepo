@@ -33,7 +33,8 @@ async function getItems() {
   const { data: items, error } = await supabase
     .from("Items")
     .select("*")
-    .eq("is_active", true);
+    .eq("is_active", true)
+    .eq("is_public", true);
 
   return items;
 }
