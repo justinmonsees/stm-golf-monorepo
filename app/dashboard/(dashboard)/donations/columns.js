@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 
 import { SquarePen, SquareX } from "lucide-react";
-
+import { convertToLocalDate } from "@/lib/helpers";
 import { deleteDonationByID } from "@/lib/actions/donationActions";
 
 export const columns = [
@@ -39,6 +39,29 @@ export const columns = [
     },
     enableColumnFilter: false,
     enableSorting: false,
+  },
+  {
+    accessorKey: "datePaid",
+    header: "Date Paid",
+    enableColumnFilter: false,
+    sortingFn: (rowA, rowB, columnId) => {
+      const dateA = rowA.original.date_paid;
+      const dateB = rowB.original.date_paid;
+      return dateA > dateB ? 1 : dateA < dateB ? -1 : 0;
+    },
+    cell: ({ row }) => {
+      if (row.original.date_paid) {
+        const localDate = convertToLocalDate(row.original.date_paid);
+
+        return localDate.toLocaleString("en-US", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        });
+      } else {
+        return "N/A";
+      }
+    },
   },
   {
     id: "actions",

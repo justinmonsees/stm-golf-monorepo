@@ -20,6 +20,10 @@ import { useAttendeeContext } from "@/lib/context/attendeesContext";
 import { createAttendeeReport } from "@/lib/reports/attendeeReport";
 import { exportAttendeesCSV } from "@/lib/csv/attendeeCSV";
 
+//PDF ME TESTING IMPORTS
+import * as checkIn from "@/lib/reportTemplates/attendee_check_in";
+import { generate } from "@pdfme/generator";
+
 const AttendeesSection = () => {
   const [attendeeEditData, setEditAttendeeData] = useState(null);
   const [isAddAttendeeFormOpen, setAddAttendeeFormOpen] = useState(false);
@@ -45,6 +49,45 @@ const AttendeesSection = () => {
   };
   const generatePDF = async () => {
     createAttendeeReport(attendees, curEvent);
+  };
+
+  const generateCheckinPDF = async () => {
+    const attendeesInput = attendees
+      .sort((a, b) => {
+        // First, compare by 'last name'
+        const lastNameComparison = a["last_name"].localeCompare(b["last_name"]);
+
+        // If last names are different, return the result
+        if (lastNameComparison !== 0) {
+          return lastNameComparison;
+        }
+
+        // If last names are the same, compare by 'first name'
+        return a["first_name"].localeCompare(b["first_name"]);
+      })
+      .reduce((acc, curAttendee) => {
+        acc.push([
+          `${curAttendee.first_name} ${curAttendee.last_name}`,
+          `${curAttendee.Golf_Tee_Groups.hole_number}${curAttendee.Golf_Tee_Groups.hole_letter}`,
+        ]);
+
+        return acc;
+      }, []);
+
+    const inputs = [
+      {
+        attendeesTable: attendeesInput,
+      },
+    ];
+
+    const template = checkIn.template;
+    const plugins = checkIn.plugins;
+
+    generate({ template, inputs, plugins }).then((pdf) => {
+      // Browser
+      const blob = new Blob([pdf.buffer], { type: "application/pdf" });
+      window.open(URL.createObjectURL(blob));
+    });
   };
 
   const generateCSV = () => {
@@ -75,6 +118,9 @@ const AttendeesSection = () => {
                   Attendees By Type
                 </DropdownMenuItem>
               </DropdownMenuGroup>
+              <DropdownMenuItem onClick={generateCheckinPDF}>
+                Check In Form
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel>Data</DropdownMenuLabel>
               <DropdownMenuGroup>
