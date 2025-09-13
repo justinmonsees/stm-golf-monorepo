@@ -312,15 +312,16 @@ const TeeAssignmentSection = ({
       });
 
       //PREPARE THE DATA TO UPDATE THE ATTENDEES IN THE DATABASE
-      const updatedAttendees = [];
 
-      attendeesToMove.forEach((attendeeToMove) => {
-        const updatedAttendee = attendees.find(
+      const updatedAttendees = attendeesToMove.map((attendeeToMove) => {
+        const attendeeToUpdate = attendees.find(
           (attendee) => attendee.attendee_id === attendeeToMove.attendee_id
         );
-        updatedAttendee["golf_tee_group_id"] = newGolfTeeGroupID;
-
-        updatedAttendees.push(updatedAttendee);
+        const { Golf_Tee_Groups, ...attendeeData } = attendeeToUpdate;
+        return {
+          ...attendeeData,
+          golf_tee_group_id: newGolfTeeGroupID,
+        };
       });
 
       const { result, error } = await bulkUpdateAttendees(updatedAttendees);
